@@ -1,1 +1,3 @@
-output "The lazy brown dog";
+output "Jack's toy ball";
+output "Hello World";
+output "I'm a string";
