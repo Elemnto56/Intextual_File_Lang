@@ -1,4 +1,3 @@
-string = "int declare x = 5;"
+string = "bool declare x = 'Hello World';"
 
-for i in string[:11]:
-    print(i)
+print(string[12:])

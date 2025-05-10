@@ -1,2 +1,2 @@
-int declare x = 5;
+bool declare x = true;
 output x;
