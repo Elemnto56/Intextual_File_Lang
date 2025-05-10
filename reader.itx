@@ -1,2 +1,2 @@
-output "Hello World";
-output "The fox ran somewhere;
+int declare x = 5;
+output x;

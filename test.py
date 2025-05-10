@@ -1,5 +1,4 @@
-string = "Thefox"
-rangeler = range(0, 8)
+string = "int declare x = 5;"
 
-for i in rangeler:
+for i in string[:11]:
     print(i)
