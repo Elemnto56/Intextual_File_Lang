@@ -23,21 +23,21 @@ try:
         if input[7:].endswith(';'):
             try:    
                 # DECLARE variable declaration --Integers
-                if input[:11] == "int declare":
+                if input.startswith("int declare"):
                     int_input = input[11:].strip().replace(';','')
                     name, value = int_input.split("=")
                     name = name.strip()
                     value = value.strip()
                     variables[name] = int(value)
                 # DECLARE --string
-                elif input[:14] == "string declare":
+                elif input.startswith("string declare"):
                     raw_string = input[14:].strip().replace(';','')
                     name, value = raw_string.split("=")
                     name = name.strip()
                     value = value.strip().replace('"','')
                     variables[name] = str(value)
                 # DECLARE --booleans
-                elif input[:12] == "bool declare":
+                elif input.startswith("bool declare"):
                     raw = input[12:].strip().replace(';','')
                     name, value = raw.split("=")
                     name = name.strip()
@@ -67,7 +67,12 @@ try:
                 elif output_expr.isdigit():
                     print(output_expr)
                 else:
-                    print("Error: Incorrect syntax for output")
+                    try:
+                        result = eval(output_expr, {"__builtins__": None}, variables)
+                        print(result)
+                    except Exception:
+                        print("Error: Incorrect syntax for output")
+                        
         elif input.strip().endswith(';') != True: 
             print("Error: A semicolon was not found in this line")
 
