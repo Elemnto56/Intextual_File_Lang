@@ -1,2 +1,1 @@
-bool declare x = true;
-output x;
+output 100;

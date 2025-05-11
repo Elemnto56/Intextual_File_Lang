@@ -21,33 +21,36 @@ try:
             continue
 
         if input[7:].endswith(';'):
-            # DECLARE variable declaration --Integers
-            if input[:11] == "int declare":
-                int_input = input[11:].strip().replace(';','')
-                name, value = int_input.split("=")
-                name = name.strip()
-                value = value.strip()
-                variables[name] = int(value)
-            # DECLARE --string
-            elif input[:14] == "string declare":
-                raw_string = input[14:].strip().replace(';','')
-                name, value = raw_string.split("=")
-                name = name.strip()
-                value = value.strip().replace('"','')
-                variables[name] = str(value)
-            # DECLARE --booleans
-            elif input[:12] == "bool declare":
-                raw = input[12:].strip().replace(';','')
-                name, value = raw.split("=")
-                name = name.strip()
-                value = value.strip()
+            try:    
+                # DECLARE variable declaration --Integers
+                if input[:11] == "int declare":
+                    int_input = input[11:].strip().replace(';','')
+                    name, value = int_input.split("=")
+                    name = name.strip()
+                    value = value.strip()
+                    variables[name] = int(value)
+                # DECLARE --string
+                elif input[:14] == "string declare":
+                    raw_string = input[14:].strip().replace(';','')
+                    name, value = raw_string.split("=")
+                    name = name.strip()
+                    value = value.strip().replace('"','')
+                    variables[name] = str(value)
+                # DECLARE --booleans
+                elif input[:12] == "bool declare":
+                    raw = input[12:].strip().replace(';','')
+                    name, value = raw.split("=")
+                    name = name.strip()
+                    value = value.strip()
 
-                if value.lower() == "true":
-                    variables[name] = True
-                elif value.lower() == "false":
-                    variables[name] = False
-                else:
-                    print("Error: Is that even a boolean?")
+                    if value.lower() == "true":
+                        variables[name] = True
+                    elif value.lower() == "false":
+                        variables[name] = False
+                    else:
+                        print("Error: Invalid boolean")
+            except (NameError, ValueError):
+                print("Error: Declaration syntax incorrect")
 
                 variables[name] = value
             # OUTPUT print statement logic
@@ -59,10 +62,14 @@ try:
                     print(variables[output_expr])
                 elif input.count("declare") == 1:
                     continue
+                elif output_expr == "true" or output_expr == "false":
+                    print(output_expr)
+                elif output_expr.isdigit():
+                    print(output_expr)
                 else:
-                    print("Error: What are you trying to say bub?")
+                    print("Error: Incorrect syntax for output")
         elif input.strip().endswith(';') != True: 
-            print("Error: Where's your semicolon bro?")
+            print("Error: A semicolon was not found in this line")
 
 except FileNotFoundError:
     print("Error: Intext file not found")
