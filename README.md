@@ -9,7 +9,7 @@ Intext is a lightweight, Python-based scripting language focused on reading file
 - comment support (//)
 - CLI-based parsing
 
-## 📦 How to Run
+## How to Run
 ```bash
 python3 parser.py <filename>
 ```
