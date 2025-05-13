@@ -1,1 +1,4 @@
-output "Hello " + "World";
+string declare x = "Hello";
+int declare number = 120;
+
+output x;
