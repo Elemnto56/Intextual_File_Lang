@@ -1,4 +1,2 @@
-int declare x = craft("Hello", "World", +);
-int declare y = 5;
-output y;
-output x;
+int declare y = 5; 
+output "Num: " +  y;
