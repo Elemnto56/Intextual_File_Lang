@@ -1,4 +1,4 @@
-string declare x = "Hello";
-int declare number = 120;
-
+int declare x = craft("Hello", "World", +);
+int declare y = 5;
+output y;
 output x;

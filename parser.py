@@ -54,7 +54,16 @@ try:
                     name, value = int_input.split("=")
                     name = name.strip()
                     value = value.strip()
-                    variables[name] = int(value)
+                    if value.count("craft") == 1:
+                        value = value.replace("craft(", "")
+                        value = value.replace(")", "")
+                        # Craft logic
+                        args = []
+                        while True:
+                            i = i + 1
+                            args.append(value[i])
+                        
+                    variables[name] = value
                     types[name] = "int"
                 # DECLARE --Strings
                 elif input.startswith("string declare"):
@@ -118,6 +127,7 @@ try:
                     print(output_expr.replace('"',''))
                 # Going past standard
                 elif output_expr in variables:
+                    print(args)
                     print(variables[output_expr])
                 elif input.count("declare") == 1:
                     continue
