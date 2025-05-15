@@ -9,14 +9,6 @@ if len(args) < 2:
 # File name <filename>.itx MUST INCLUDE ITX
 filename = args[1]
 
-# Global Functions
-def contains(*words, string):
-    for word in words:
-        if word.lower() in string.lower():
-            return True
-    return False
-
-
 try:
     file = open(filename)
 
@@ -24,17 +16,46 @@ try:
     variables = {}
     types = {}
     craft_args = {}
+    answer = ""
 
     # Functions (In the FIle)
-    def craft(val1, val2, op, return_type=None):
-        if val1 or val2 in variables or types:
-            print(variables[val1])
-            print(types[val1])
-            print(variables[val2])
-            print(types[val2])
-        print(op)
-        print(return_type)
-        
+    def crunch(arg_1, arg_2, op, forced_type=None):
+        result = 0
+        if op == '+':
+            if forced_type == "string":
+                result = int(arg_1) + int(arg_2)
+                answer = str(result)
+                return answer
+            else:
+                return int(arg_1) + int(arg_2)
+        elif op == '-':
+            if forced_type == "string":
+                result = int(arg_1) - int(arg_2)
+                answer = str(result)
+                return answer
+            else:
+                return int(arg_1) - int(arg_2)
+        elif op == '*':
+            if forced_type == "string":
+                result = int(arg_1) * int(arg_2)
+                answer = str(result)
+                return answer
+            else:
+                return int(arg_1) * int(arg_2)
+        elif op == '/':
+            if forced_type == "string":
+                result = int(arg_1) / int(arg_2)
+                answer = str(result)
+                return answer
+            else:
+                return int(arg_1) / int(arg_2)
+            
+    def read(path):
+        try:
+            with open(path, 'r') as file:
+                return str(file)
+        except Exception as e:
+            return "Error: Something went wrong when reading said file"
 
     for line in file:
         input = line.strip()
@@ -55,14 +76,64 @@ try:
                     name, value = int_input.split("=")
                     name = name.strip()
                     value = value.strip()
-                    variables[name] = value
-                    types[name] = "int"
+                    # Crunch insertion
+                    if value.count("crunch"):
+                        raw_crunch = value
+
+                        func_name = raw_crunch[:raw_crunch.index("(")]
+                        arg_string = raw_crunch[raw_crunch.index("(")+1 : -1]
+
+                        raw_args = arg_string.split(",")
+                        final_args = [argument.strip() for argument in raw_args]
+                        fixed_args = []
+                        for arg in final_args:
+                            if arg.isdigit():
+                                fixed_args.append(int(arg))
+                            elif arg in variables:
+                                fixed_args.append(variables[arg])
+                            else:
+                                fixed_args.append(arg)
+
+                        crunch_result = crunch(fixed_args[0], fixed_args[1], fixed_args[2])
+                        variables[name] = crunch_result
+                    else:
+                        variables[name] = value
+                        types[name] = "int"
                 # DECLARE --Strings
                 elif input.startswith("string declare"):
                     raw_string = input[14:].strip().replace(';','')
                     name, value = raw_string.split("=")
                     name = name.strip()
                     value = value.strip().replace('"','')
+                    # Crunch insertion
+                    if value.count("crunch"):
+                        raw_crunch = value
+
+                        func_name = raw_crunch[:raw_crunch.index("(")]
+                        arg_string = raw_crunch[raw_crunch.index("(")+1 : -1]
+
+                        raw_args = arg_string.split(",")
+                        final_args = [argument.strip() for argument in raw_args]
+                        fixed_args = []
+                        for arg in final_args:
+                            if arg.isdigit():
+                                fixed_args.append(int(arg))
+                            elif arg in variables:
+                                fixed_args.append(variables[arg])
+                            else:
+                                fixed_args.append(arg)
+                        crunch_result = crunch(fixed_args[0], fixed_args[1], fixed_args[2], fixed_args[3])
+                        variables[name] = crunch_result  
+                    # read insertion
+                    elif value.count("read"):
+                        raw_read = value
+
+                        func_name = raw_read[:raw_read.index("(")]
+                        arg_string = raw_read[raw_read.index("(")+1 : -1]
+
+                        read_result = read(arg_string)
+                        variables[name] = read_result
+
                     variables[name] = str(value)
                     types[name] = "string"
                 # DECLARE --Booleans
@@ -111,7 +182,7 @@ try:
                         part = part.strip().replace('"','')
 
                         if part in variables:
-                                result += str(variables[part])
+                            result += str(variables[part])
                         else:
                             result += part
                     print(result)
@@ -119,6 +190,8 @@ try:
                     print(output_expr.replace('"',''))
                 # Going past standard
                 elif output_expr in variables:
+                    print(func_name)
+                    print(arg_string)
                     print(variables[output_expr])
                 elif input.count("declare") == 1:
                     continue

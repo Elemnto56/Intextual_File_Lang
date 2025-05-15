@@ -1,2 +1,2 @@
-int declare y = 5; 
-output "Num: " +  y;
+string declare x = read("text.txt");
+output x;
