@@ -1,3 +1,5 @@
+// reader is the base name for all .itx files
+
 // ───── VARIABLE DECLARATIONS ─────
 
 int declare a = 5;
@@ -8,7 +10,6 @@ char declare ch = J;
 
 // ───── OUTPUT ─────
 
-output "Starting test sequence.";
 output "Char test: " + ch;
 output "Bool test: " + flag;
 
@@ -49,7 +50,3 @@ int declare x = 2;
 int declare y = 3;
 int declare total = crunch(x, y, +);
 output "Final total: " + total;
-
-// ───── JUST TO WRAP UP CLEANLY ─────
-
-output "v0.5 feature test complete.";

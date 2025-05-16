@@ -9,6 +9,16 @@ if len(args) < 2:
 # File name <filename>.itx MUST INCLUDE ITX
 filename = args[1]
 
+# Global Functions
+def read(path):
+        try:
+            with open(path, 'r') as file:
+                return file.read()
+        except FileNotFoundError:
+            return f"Error: could not fine the file {path}"
+        except Exception as e:
+            return f"Error reading file: {str(e)}"
+
 try:
     file = open(filename)
 
@@ -49,13 +59,6 @@ try:
                 return answer
             else:
                 return int(arg_1) / int(arg_2)
-            
-    def read(path):
-        try:
-            with open(path, 'r') as file:
-                return str(file)
-        except Exception as e:
-            return "Error: Something went wrong when reading said file"
 
     for line in file:
         input = line.strip()
@@ -133,9 +136,9 @@ try:
 
                         read_result = read(arg_string)
                         variables[name] = read_result
-
-                    variables[name] = str(value)
-                    types[name] = "string"
+                    else:
+                        variables[name] = str(value)
+                        types[name] = "string"
                 # DECLARE --Booleans
                 elif input.startswith("bool declare"):
                     raw = input[12:].strip().replace(';','')
@@ -190,8 +193,6 @@ try:
                     print(output_expr.replace('"',''))
                 # Going past standard
                 elif output_expr in variables:
-                    print(func_name)
-                    print(arg_string)
                     print(variables[output_expr])
                 elif input.count("declare") == 1:
                     continue
