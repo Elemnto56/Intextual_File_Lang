@@ -18,3 +18,6 @@ Intext is a lightweight, Python-powered scripting language built for embedding s
 python3 parser.py <filename>
 ```
 - Make sure your file ends in .itx so it'll work!
+
+## [Intext Playground](https://www.devhatch.site)
+- For simplicity, for those who want to program in Intext, without dealing with the hassle of installing, running, and etc... I made a website that you can visit to code on! It parses to the latest release.
