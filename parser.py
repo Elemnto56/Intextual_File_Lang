@@ -27,8 +27,9 @@ try:
     types = {}
     craft_args = {}
     answer = ""
+    repeat_list = []
 
-    # Functions (In the FIle)
+    # Functions (In the File)
     def crunch(arg_1, arg_2, op, forced_type=None):
         result = 0
         if op == '+':
@@ -173,9 +174,12 @@ try:
                     types[name] = "float"
             except (NameError, ValueError):
                 print("Error: Declaration syntax incorrect")
-
+            # REPEAT loop logic
+            if input.startswith("repeat"):
+                logic = input[6:input.index('{')]
+                print(repeat_list)
             # OUTPUT print statement logic
-            if input[:7].count("output") == 1:
+            if input.startswith("output"):
                 output_expr = input[7:].replace(';', '').strip()
                 if output_expr.count("+") >= 1:
                     parts = output_expr.split(" + ")
@@ -210,7 +214,7 @@ try:
                 input = input.split("=")
                 if input[0].count("declare") != 1 or input[0].count("output") != 1:
                     name = input[0].strip()
-
+                    
         elif input.strip().endswith(';') != True: 
             print("Error: A semicolon was not found in this line")
 
