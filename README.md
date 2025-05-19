@@ -1,16 +1,23 @@
 # Intextual File Lang
 
-Intext is a lightweight, Python-based scripting language focused on reading files and embedding structured text. Syntax is inspired by natural English.
+Intext is a lightweight, Python-powered scripting language built for embedding structured text and reading external files. It's meant to be simple, flexible, and readable, yet closer to natural English than traditional programming languages (Some may argue). You write what you mean, and it just works (in theory).
 
 ## Current Features
-- output statements (print statements)
-- declare variables (int, string, bool) (variable declaration)
-- A decent error handling system (I gotta be honest)
-- comment support (//)
-- CLI-based parsing
+
+- `output` statements for printing anything (int, string, bool, whatever)
+- Variable declarations for `int`, `string`, `bool`, and `char`
+- `crunch()` function for basic math (`+`, `-`, `*`, `/`) with optional string conversion
+- `read()` function to pull in content from text files
+- Loosely typed output: mix anything together (ex: a bool and int can output together)
+- Comment support using `//`
+- Basic error handling
 
 ## How to Run
+
 ```bash
 python3 parser.py <filename>
 ```
-- Make sure to use the .itx file extension for it to work!
+- Make sure your file ends in .itx so it'll work!
+
+## [Intext Playground](https://www.devhatch.site)
+- For simplicity, for those who want to program in Intext, without dealing with the hassle of installing, running, and etc... I made a website that you can visit to code on! It parses to the latest release.
