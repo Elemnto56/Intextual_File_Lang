@@ -10,12 +10,14 @@ if len(args) < 2:
 filename = args[1]
 
 # Global Functions
-def contains(*words, string):
-    for word in words:
-        if word.lower() in string.lower():
-            return True
-    return False
-
+def read(path):
+        try:
+            with open(path, 'r') as file:
+                return file.read()
+        except FileNotFoundError:
+            return f"Error: could not fine the file {path}"
+        except Exception as e:
+            return f"Error reading file: {str(e)}"
 
 try:
     file = open(filename)
@@ -24,17 +26,39 @@ try:
     variables = {}
     types = {}
     craft_args = {}
+    answer = ""
 
     # Functions (In the FIle)
-    def craft(val1, val2, op, return_type=None):
-        if val1 or val2 in variables or types:
-            print(variables[val1])
-            print(types[val1])
-            print(variables[val2])
-            print(types[val2])
-        print(op)
-        print(return_type)
-        
+    def crunch(arg_1, arg_2, op, forced_type=None):
+        result = 0
+        if op == '+':
+            if forced_type == "string":
+                result = int(arg_1) + int(arg_2)
+                answer = str(result)
+                return answer
+            else:
+                return int(arg_1) + int(arg_2)
+        elif op == '-':
+            if forced_type == "string":
+                result = int(arg_1) - int(arg_2)
+                answer = str(result)
+                return answer
+            else:
+                return int(arg_1) - int(arg_2)
+        elif op == '*':
+            if forced_type == "string":
+                result = int(arg_1) * int(arg_2)
+                answer = str(result)
+                return answer
+            else:
+                return int(arg_1) * int(arg_2)
+        elif op == '/':
+            if forced_type == "string":
+                result = int(arg_1) / int(arg_2)
+                answer = str(result)
+                return answer
+            else:
+                return int(arg_1) / int(arg_2)
 
     for line in file:
         input = line.strip()
@@ -55,16 +79,66 @@ try:
                     name, value = int_input.split("=")
                     name = name.strip()
                     value = value.strip()
-                    variables[name] = value
-                    types[name] = "int"
+                    # Crunch insertion
+                    if value.count("crunch"):
+                        raw_crunch = value
+
+                        func_name = raw_crunch[:raw_crunch.index("(")]
+                        arg_string = raw_crunch[raw_crunch.index("(")+1 : -1]
+
+                        raw_args = arg_string.split(",")
+                        final_args = [argument.strip() for argument in raw_args]
+                        fixed_args = []
+                        for arg in final_args:
+                            if arg.isdigit():
+                                fixed_args.append(int(arg))
+                            elif arg in variables:
+                                fixed_args.append(variables[arg])
+                            else:
+                                fixed_args.append(arg)
+
+                        crunch_result = crunch(fixed_args[0], fixed_args[1], fixed_args[2])
+                        variables[name] = crunch_result
+                    else:
+                        variables[name] = value
+                        types[name] = "int"
                 # DECLARE --Strings
                 elif input.startswith("string declare"):
                     raw_string = input[14:].strip().replace(';','')
                     name, value = raw_string.split("=")
                     name = name.strip()
                     value = value.strip().replace('"','')
-                    variables[name] = str(value)
-                    types[name] = "string"
+                    # Crunch insertion
+                    if value.count("crunch"):
+                        raw_crunch = value
+
+                        func_name = raw_crunch[:raw_crunch.index("(")]
+                        arg_string = raw_crunch[raw_crunch.index("(")+1 : -1]
+
+                        raw_args = arg_string.split(",")
+                        final_args = [argument.strip() for argument in raw_args]
+                        fixed_args = []
+                        for arg in final_args:
+                            if arg.isdigit():
+                                fixed_args.append(int(arg))
+                            elif arg in variables:
+                                fixed_args.append(variables[arg])
+                            else:
+                                fixed_args.append(arg)
+                        crunch_result = crunch(fixed_args[0], fixed_args[1], fixed_args[2], fixed_args[3])
+                        variables[name] = crunch_result  
+                    # read insertion
+                    elif value.count("read"):
+                        raw_read = value
+
+                        func_name = raw_read[:raw_read.index("(")]
+                        arg_string = raw_read[raw_read.index("(")+1 : -1]
+
+                        read_result = read(arg_string)
+                        variables[name] = read_result
+                    else:
+                        variables[name] = str(value)
+                        types[name] = "string"
                 # DECLARE --Booleans
                 elif input.startswith("bool declare"):
                     raw = input[12:].strip().replace(';','')
@@ -111,7 +185,7 @@ try:
                         part = part.strip().replace('"','')
 
                         if part in variables:
-                                result += str(variables[part])
+                            result += str(variables[part])
                         else:
                             result += part
                     print(result)
@@ -131,7 +205,7 @@ try:
                         result = eval(output_expr, {"__builtins__": None}, variables)
                         print(result)
                     except Exception:
-                        print("Error: Incorrect syntax for output")
+                        print("Error: Incorrect syntax for output. Did you happen to misspell a keyword?")
             if input.count("=") == 1:
                 input = input.split("=")
                 if input[0].count("declare") != 1 or input[0].count("output") != 1:

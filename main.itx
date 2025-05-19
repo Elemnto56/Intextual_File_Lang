@@ -1,2 +1,11 @@
-int declare y = 5; 
-output "Num: " +  y;
+int declare x = crunch(5, 5, +);
+output x;
+
+int declare y = crunch(10, 10, *);
+output y;
+
+int declare divide = crunch(10, 5, /);
+output divide;
+
+int declare subtract = crunch(9, 2, -);
+output subtract;
