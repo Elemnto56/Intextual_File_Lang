@@ -32,6 +32,12 @@ try:
         types = {}
         craft_args = {}
         answer = ""
+    # Storages
+    variables = {}
+    types = {}
+    craft_args = {}
+    answer = ""
+    repeat_list = []
 
         # Functions (In the File)
         def crunch(arg_1, arg_2, op, forced_type=None):
@@ -64,6 +70,37 @@ try:
                     return answer
                 else:
                     return int(arg_1) / int(arg_2)
+    # Functions (In the File)
+    def crunch(arg_1, arg_2, op, forced_type=None):
+        result = 0
+        if op == '+':
+            if forced_type == "string":
+                result = int(arg_1) + int(arg_2)
+                answer = str(result)
+                return answer
+            else:
+                return int(arg_1) + int(arg_2)
+        elif op == '-':
+            if forced_type == "string":
+                result = int(arg_1) - int(arg_2)
+                answer = str(result)
+                return answer
+            else:
+                return int(arg_1) - int(arg_2)
+        elif op == '*':
+            if forced_type == "string":
+                result = int(arg_1) * int(arg_2)
+                answer = str(result)
+                return answer
+            else:
+                return int(arg_1) * int(arg_2)
+        elif op == '/':
+            if forced_type == "string":
+                result = int(arg_1) / int(arg_2)
+                answer = str(result)
+                return answer
+            else:
+                return int(arg_1) / int(arg_2)
 
             # Comment logic
             line = line.split("//")[0].strip()
@@ -185,6 +222,43 @@ try:
                     if output_expr.count("+") >= 1:
                         parts = output_expr.split(" + ")
                         result = ""
+                    if value.lower() == "true":
+                        variables[name] = True
+                        types[name] = "bool"
+                    elif value.lower() == "false":
+                        variables[name] = False
+                        types[name] = "bool"
+                    else:
+                        print("Error: Invalid boolean")
+                # DECLARE --Floats
+                elif input.startswith("float declare"):
+                    float_input = input[13:].strip().replace(';','')
+                    name, value = float_input.split("=")
+                    name = name.strip()
+                    value = value.strip()
+                    variables[name] = float(value)
+                    types[name] = "float"
+                # DECLARE --Char
+                elif input.startswith("char declare"):
+                    raw = input[12:].strip().replace(';','')
+                    name, value = raw.split("=")
+                    name = name.strip()
+                    value = value.strip()
+                    value = ord(value)
+                    variables[name] = chr(value)
+                    types[name] = "float"
+            except (NameError, ValueError):
+                print("Error: Declaration syntax incorrect")
+            # REPEAT loop logic
+            if input.startswith("repeat"):
+                logic = input[6:input.index('{')]
+                print(repeat_list)
+            # OUTPUT print statement logic
+            if input.startswith("output"):
+                output_expr = input[7:].replace(';', '').strip()
+                if output_expr.count("+") >= 1:
+                    parts = output_expr.split(" + ")
+                    result = ""
 
                         for part in parts:
                             part = part.strip().replace('"','')
@@ -217,6 +291,35 @@ try:
                     continue
                 else:
                     print("Error: A semicolon was not found in this line")
+                        if part in variables:
+                            result += str(variables[part])
+                        else:
+                            result += part
+                    print(result)
+                elif output_expr.startswith('"'):
+                    print(output_expr.replace('"',''))
+                # Going past standard
+                elif output_expr in variables:
+                    print(variables[output_expr])
+                elif input.count("declare") == 1:
+                    continue
+                elif output_expr == "true" or output_expr == "false":
+                    print(output_expr)
+                elif output_expr.isdigit():
+                    print(output_expr)
+                else:
+                    try:
+                        result = eval(output_expr, {"__builtins__": None}, variables)
+                        print(result)
+                    except Exception:
+                        print("Error: Incorrect syntax for output. Did you happen to misspell a keyword?")
+            if input.count("=") == 1:
+                input = input.split("=")
+                if input[0].count("declare") != 1 or input[0].count("output") != 1:
+                    name = input[0].strip()
+                    
+        elif input.strip().endswith(';') != True: 
+            print("Error: A semicolon was not found in this line")
 
 except FileNotFoundError:
     print("Error: Intext file not found")
