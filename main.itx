@@ -1,1 +1,3 @@
-output "Hello World";
+repeat 5 == 5 {;
+    output "Hello";
+};
