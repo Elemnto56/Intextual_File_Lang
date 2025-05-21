@@ -15,7 +15,7 @@ def read(path):
             with open(path, 'r') as file:
                 return file.read()
         except FileNotFoundError:
-            return f"Error: could not fine the file {path}"
+            return f"Error: could not find the file {path}"
         except Exception as e:
             return f"Error reading file: {str(e)}"
 
@@ -76,49 +76,6 @@ try:
             continue
 
         if line.endswith(';'):
-            # REPEAT loop logic
-            if line.startswith("repeat") and line.endswith("{"):
-                logic = line[6:line.index('{')].strip()
-                repeat_lines = []
-                file_i += 1
-                while lines[file_i].strip() != "}":
-                    repeat_lines.append(lines[file_i].strip())
-                    file_i += 1
-                while logic_engine(logic):
-                    for rep_line in repeat_lines:
-                        rep_line = rep_line.strip()
-                        if rep_line.startswith("output"):
-                            output_expr = rep_line[7:].replace(';', '').strip()
-                            if output_expr.count("+") >= 1:
-                                parts = output_expr.split(" + ")
-                                result = ""
-                                for part in parts:
-                                    part = part.strip().replace('"','')
-                                    if part in variables:
-                                        result += str(variables[part])
-                                    else:
-                                        result += part
-                                print(result)
-                            elif output_expr.startswith('"'):
-                                print(output_expr.replace('"',''))
-                            elif output_expr in variables:
-                                if types[output_expr] == 'bool':
-                                    print("true" if variables[output_expr] else "false")
-                                else:
-                                    print(variables[output_expr])
-                            elif output_expr == "true" or output_expr == "false":
-                                print(output_expr)
-                            elif output_expr.isdigit():
-                                print(output_expr)
-                            else:
-                                try:
-                                    result = eval(output_expr, {"__builtins__": None}, variables)
-                                    print(result)
-                                except Exception:
-                                    print("Error: Incorrect syntax for output")
-                file_i += 1
-                continue
-
             if line.count("declare") == 1 and line.count("=") == 1:
                 try:    
                     # DECLARE variable declaration --Integers
@@ -212,7 +169,7 @@ try:
                         raw = line[12:].strip().replace(';','')
                         name, value = raw.split("=")
                         name = name.strip()
-                        value = value.strip()
+                        value = value.replace("'", '').strip()
                         value = ord(value)
                         variables[name] = chr(value)
                         types[name] = "float"
