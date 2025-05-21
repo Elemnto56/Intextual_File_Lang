@@ -23,4 +23,4 @@ python3 parser.py <filename>
 For simplicity, for those who want to program in Intext, without dealing with the hassle of installing, running, and etc... I made a website that you can visit to code on! It parses to the latest release.
 
 ## - BIG CHANGE; PLEASE READ -
-The way Intext runs, will be soon changed starting v0.7-pre. By change, I mean that Intext will run on a system called "ISEC", rather than a single file. ISEC stands for "Intext Script Execution Core", which will turn code into tokens, then into AST, then into execution. Developing this will he difficult, so expect a long wait. An expriemental version of ISEC will be released on v0.6-pre. Stay tuned!
+The way Intext runs, will be soon changed starting v0.7-pre. By change, I mean that Intext will run on a system called "ISEC", rather than a single file. ISEC stands for "Intext Script Execution Core", which will turn code into tokens, then into AST, then into execution. Developing this will be difficult, so expect a long wait. An expriemental version of ISEC will be released on v0.6-pre. Stay tuned!
