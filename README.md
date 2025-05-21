@@ -20,7 +20,7 @@ python3 parser.py <filename>
 - Make sure your file ends in .itx so it'll work!
 
 ## [Intext Playground](https://www.devhatch.site)
-- For simplicity, for those who want to program in Intext, without dealing with the hassle of installing, running, and etc... I made a website that you can visit to code on! It parses to the latest release.
+For simplicity, for those who want to program in Intext, without dealing with the hassle of installing, running, and etc... I made a website that you can visit to code on! It parses to the latest release.
 
 ## --- BIG CHANGE; PLEASE READ ---
 The way Intext runs, will be soon changed starting v0.7-pre. By change,
