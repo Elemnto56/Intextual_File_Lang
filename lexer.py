@@ -1,4 +1,5 @@
 import sys
+import json
 args = sys.argv
 
 # Exceptions
@@ -20,6 +21,12 @@ with open(filename, 'r') as file:
 
     while index < len(lines):
         line = lines[index].strip()
+
+         # Comment and whitespace checks (Outer Loop)
+        if not line:
+            continue
+        if "//" in line:
+            line = line.split("//")[0].strip()
         
         i = 0
         while i < len(line):
@@ -32,7 +39,7 @@ with open(filename, 'r') as file:
                 while i < len(line) and (line[i].isalnum() or line[i] == '_'):
                     ident += line[i]
                     i += 1
-                if ident in ["bool", "string", "int", "char", "float", "output"]:
+                if ident in ["bool", "string", "int", "char", "float", "output", "declare"]:
                     all_tokens.append({'type': 'KEYWORD', 'value': ident})
                 else:
                     all_tokens.append({'type': 'IDENTIFIER', 'value': ident})
@@ -67,15 +74,8 @@ with open(filename, 'r') as file:
                 all_tokens.append({'type': 'SYMBOL', 'value': line[i]})
                 i += 1
                 continue
-            
-            i += 1
             raise LexerError(f"Illegal character {line[i]!r} on line {index + 1}")
-        
-        # Comment and whitespace checks (Outer Loop)
-        if not line:
-            continue
-        if "//" in line:
-            line = line.split("//")[0].strip()
+        index += 1    
 
-    for token in all_tokens:
-        print(token)
+        with open("tokens.json", "w") as out_file:
+            json.dump(all_tokens, out_file, indent=2)

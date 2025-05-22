@@ -1,6 +1,2 @@
-string = "Heyo bro"
-
-if string.startswith("Heyo"):
-    print(True)
-else:
-    print(False)
+while (True):
+    print("Hello World")
