@@ -1,0 +1,15 @@
+int declare counter = 42;
+float declare pi = 3.14;
+bool declare system_on = true;
+string declare message = "Welcome to ISEC-lite!";
+char declare symbol = '#';
+
+output message;
+output "Counter value:";
+output counter;
+output "Pi is approximately:";
+output pi;
+output "System online:";
+output system_on;
+output "Symbol of the day:";
+output symbol;
