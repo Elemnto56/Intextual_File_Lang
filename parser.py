@@ -19,6 +19,26 @@ with open("tokens.json", "r") as f:
     
     while index < len(tokens):
         token = current()
+
+        if token["type"] == "KEYWORD" and token["value"] in ["output"]:
+            advance()
+            token = current()
+
+            if token["type"] == "IDENTIFIER":
+                name = token["value"]
+                ast.append({
+                    "type": "output",
+                    "value": name
+                })
+            elif token["type"] in ["INT", "FLOAT", "CHAR", "BOOL", "STRING"]:
+                literal = token["value"]
+                ast.append({
+                    "type": "output",
+                    "value": literal
+                })
+
+            advance()
+            continue                            
         
         # Check for intial keywords/indentifiers 
         if token["type"] == "KEYWORD" and token["value"] in ["int", "float", "char", "bool", "string"]:
@@ -53,27 +73,6 @@ with open("tokens.json", "r") as f:
                             })
                             advance()
             
-            # Check what is being asked or said [OUTPUT ROUTE]
-        if token["type"] == "KEYWORD" and token["value"] in ["output"]:
-            print("Hello")
-            advance()
-            token = current()
-
-            if token["type"] == "IDENTIFIER":
-                name = token["value"]
-                ast.append({
-                    "type": "output",
-                    "value": name
-                })
-            elif token["type"] in ["INT", "FLOAT", "CHAR", "BOOL", "STRING"]:
-                literal = token["value"]
-                ast.append({
-                    "type": "output",
-                    "value": literal
-                })
-
-            advance()                            
-
         with open("ast.json", "w") as out_file:
             json.dump(ast, out_file, indent=2)
             sys.exit(0)
