@@ -1,6 +1,10 @@
 import sys
 import json
+import os
 args = sys.argv
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+output_path = os.path.join(script_dir, "tokens.json")
 
 # Exceptions
 class LexerError(Exception):
@@ -70,12 +74,12 @@ with open(filename, 'r') as file:
                 all_tokens.append({'type': 'STRING', 'value': string_val})
                 continue
 
-            if line[i] in ['=', ';']:
+            if line[i] == '=' or line[i] == ';':
                 all_tokens.append({'type': 'SYMBOL', 'value': line[i]})
                 i += 1
                 continue
             raise LexerError(f"Illegal character {line[i]!r} on line {index + 1}")
         index += 1    
 
-        with open("tokens.json", "w") as out_file:
+        with open(output_path, "w") as out_file:
             json.dump(all_tokens, out_file, indent=2)
