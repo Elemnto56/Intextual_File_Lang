@@ -1,0 +1,11 @@
+@RawAST // Directive to indicate your writing into a AST
+
+[
+ {
+  "type": "output",
+  "value": "Hello World"
+ }
+]
+
+// Type is specified, and depending on the type, like if it's declare or output, it'll have certain prerequisites
+// In this case, output requires a "value", which can either refer to a variable, or be a literal

@@ -6,6 +6,15 @@ Intext is a lightweight, Python-powered scripting language built for embedding s
 
 - `output` statements for printing anything (int, string, bool, whatever)
 - Variable declarations for `int`, `string`, `bool`, and `char`
+- Basic error handling
+- Comment support using `//`
+
+#### RawText
+RawText is an umbrella term to describe programming closer to the compenents of ISEC. In other words, you work more low-level.
+- RawAST: The parser outputs an Abstract Syntax Tree, which the user (you) can make one to feed into the interpreter yourself. This makes running code much faster, but be warned: programming in RawAST is very verbose due to JSON's rules an the interpreter's rules. As the ASTs are made in a JSON file. Examples will be shown in the repo.
+
+
+### Ones only for v0.5-pre
 - `crunch()` function for basic math (`+`, `-`, `*`, `/`) with optional string conversion
 - `read()` function to pull in content from text files
 - Loosely typed output: mix anything together (ex: a bool and int can output together)
@@ -22,5 +31,11 @@ python3 parser.py <filename>
 ## [Intext Playground](https://www.devhatch.site)
 For simplicity, for those who want to program in Intext, without dealing with the hassle of installing, running, and etc... I made a website that you can visit to code on! It parses to the latest release.
 
-## - BIG CHANGE; PLEASE READ -
+## - BIG CHANGE; ISEC INFO -
 The way Intext runs, will be soon changed starting v0.7-pre. By change, I mean that Intext will run on a system called "ISEC", rather than a single file. ISEC stands for "Intext Script Execution Core", which will turn code into tokens, then into AST, then into execution. Developing this will be difficult, so expect a long wait. An expriemental version of ISEC has been released on v0.6-pre. Check the releases and stay tuned!
+
+## Roadmap
+- [x] v0.6-pre Initial release of ISEC-lite
+- [ ] v0.6.5-pre ISEC-lite will recieve better error-handling for Intext and RawAST
+- [ ] v0.7-pre ISEC-lite will either undergo serious changes, or the full ISEC will be released
+- [ ] v0.7.5-pre More syntax, such as while loops, and lists
