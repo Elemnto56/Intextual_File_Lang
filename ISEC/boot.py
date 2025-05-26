@@ -4,6 +4,9 @@ import subprocess
 import os
 import json
 
+class FileError(Exception):
+    pass
+
 #region Important stuff and paths
 main_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 isec_path = os.path.join("ISEC", "ast.json")
@@ -28,6 +31,8 @@ with open(file, "r") as f:
             ast = []
             while i < len(lines):
                 raw = lines[i].strip()
+                if raw.count("//"):
+                    raw = raw.split("//")[0].strip()
                 ast.append(raw)
                 if raw == ']':
                     break
@@ -45,7 +50,10 @@ with open(file, "r") as f:
             print("[ISEC] Running interpreter based on RawAST...")
             time.sleep(1)
             print("------ OUTPUT ------")
-            subprocess.run(["python3", "ISEC/interpreter.py"], check=True)
+            try:
+                subprocess.run(["python3", "ISEC/interpreter.py"], check=True)
+            except subprocess.CalledProcessError:
+                pass
         i += 1
 
     if lines[0].strip().count("@") != True:
@@ -65,6 +73,11 @@ with open(file, "r") as f:
         print("[ISEC] Interpretering...")
         time.sleep(1)
         print("------ OUTPUT ------")
-        subprocess.run(["python3", "ISEC/interpreter.py"], check=True)
+        try:
+            subprocess.run(["python3", "ISEC/interpreter.py"], check=True)
+        except subprocess.CalledProcessError:
+            pass
+        
+            
         
             
