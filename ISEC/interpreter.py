@@ -1,6 +1,9 @@
 import json
 import os
 
+class MissingBreaker(Exception):
+    pass
+
 # paths
 script_dir = os.path.dirname(os.path.abspath(__file__))
 ast_path = os.path.join(script_dir, "ast.json")
@@ -8,12 +11,16 @@ ast_path = os.path.join(script_dir, "ast.json")
 with open(ast_path, "r") as f:
     tree = json.load(f)
 
+    # indexs
+    i = 0
+
     # Storages
     types = {}
     variables = {}
 
-    for node in tree:
-        if node["type"] == "declare":
+    for i, node in enumerate(tree):
+        if node.get("type") == "declare":
+
             name = node["var_name"]
             value = node["var_value"]
             typE = node["var_type"]
@@ -34,11 +41,17 @@ with open(ast_path, "r") as f:
 
             variables[name] = value
 
+            if i + 1 >= len(tree) or "semicolon" not in tree[i + 1]:
+                raise MissingBreaker()
+
             
-        elif node["type"] == "output":
+        elif node.get("type") == "output":
             val = node["value"]
             if val in variables:
                 print(variables[val])
             else:
                 print(val)
+
+            if i + 1 >= len(tree) or "semicolon" not in tree[i + 1]:
+                raise MissingBreaker("No semicolon was found at the end of this statement")
 

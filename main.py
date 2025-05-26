@@ -2,23 +2,17 @@ import subprocess
 import time
 import os
 
+
 user = input("What file to run? (You don't need to incude the .itx)\n")
+noask = user
 
+with open(f"{noask}.itx", "r") as f:
+    source_lines = f.readlines()
+    
 root = os.path.dirname(os.path.abspath(__file__))
-intext_file = os.path.join(root, f"{user}.itx")
-lexer_file = os.path.join(root, "ISEC", "lexer.py")
-parser_file = os.path.join(root, "ISEC", "parser.py")
-interpreter_file = os.path.join(root, "ISEC", "interpreter.py")
+intext_file = os.path.join(root, f"{noask}.itx")
+boot_file = os.path.join(root, "ISEC", "boot.py")
 
-print("[ISEC] Lexing Intext code...")
+print("[ISEC] Checking special conditions...")
 time.sleep(1)
-subprocess.run(["python3", lexer_file, intext_file], check=True)
-
-print("[ISEC] Parsing tokens...")
-time.sleep(1)
-subprocess.run(["python3", parser_file], check=True)
-
-print("[ISEC] Interpreting AST...")
-time.sleep(1)
-print("-------- OUTPUT --------")
-subprocess.run(["python3", interpreter_file], check=True)
+subprocess.run(["python3", boot_file, intext_file], check=True)

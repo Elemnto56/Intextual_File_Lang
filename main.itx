@@ -1,2 +1,1 @@
-int declare x = 5;
-output x;
+output 6;

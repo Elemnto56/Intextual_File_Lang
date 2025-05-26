@@ -56,7 +56,9 @@ with open(tokens_path, "r") as f:
                                     "var_name": var_name,
                                     "var_value": var_value
                                 })
-                advance()
+                                advance()
+                                token = current()
+                                
 
             elif token["value"] == "output":
                 advance()
@@ -73,7 +75,14 @@ with open(tokens_path, "r") as f:
                         "type": "output",
                         "value": literal
                     })
-                advance()                          
+                advance()
+
+        if token["type"] == "SYMBOL" and token["value"] == ';':
+            end_semi = token["value"]
+            ast.append({
+                "semicolon": end_semi
+            })
+            advance()
             
     with open(ast_path, "w") as out_file:
         json.dump(ast, out_file, indent=2)
