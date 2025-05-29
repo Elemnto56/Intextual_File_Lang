@@ -11,8 +11,7 @@ Intext is a lightweight, Python-powered scripting language built for embedding s
 
 #### RawText
 RawText is an umbrella term to describe programming closer to the compenents of ISEC. In other words, you work more low-level.
-- RawAST: The parser outputs an Abstract Syntax Tree, which the user (you) can make one to feed into the interpreter yourself. This makes running code much faster, but be warned: programming in RawAST is very verbose due to JSON's rules an the interpreter's rules. As the ASTs are made in a JSON file. Examples will be shown in the repo.
-
+- RawAST: The parser outputs an Abstract Syntax Tree, which the user (you) can make one to feed into the interpreter yourself. This makes running code much faster, but be warned: programming in RawAST is very verbose due to JSON's rules an the interpreter's rules. As the ASTs are made in a JSON file.
 
 ### Ones only for v0.5-pre
 - `crunch()` function for basic math (`+`, `-`, `*`, `/`) with optional string conversion
@@ -24,9 +23,11 @@ RawText is an umbrella term to describe programming closer to the compenents of 
 ## How to Run
 
 ```bash
-python3 parser.py <filename>
+python3 og_parser.py <filename>.itx
 ```
 - Make sure your file ends in .itx so it'll work!
+
+### **🛈 More info can be seen in the Wiki tab of this repo**
 
 ## [Intext Playground](https://www.devhatch.site)
 For simplicity, for those who want to program in Intext, without dealing with the hassle of installing, running, and etc... I made a website that you can visit to code on! It parses to the latest release.
