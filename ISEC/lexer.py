@@ -1,14 +1,14 @@
 import sys
 import json
 import os
+from errors import LexerError
+
 args = sys.argv
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 output_path = os.path.join(script_dir, "tokens.json")
 
-# Exceptions
-class LexerError(Exception):
-    pass
+
 
 if len(args) < 2:
     print("Usage: python3 parser.py <filename>")
@@ -26,35 +26,57 @@ with open(filename, 'r') as file:
     while index < len(lines):
         line = lines[index].strip()
 
-        # Comment and whitespace checks (Outer Loop)
-        if line.isspace():
-            i += 1
-            continue
         if "//" in line:
             line = line.split("//")[0].strip()
         
+        if line.isspace():
+            index += 1
+            continue
+
         i = 0
         while i < len(line):
+
+            # if line is a space
+            if line[i].isspace():
+                i += 1
+                continue
 
             if line[i] in [";", "="]:
                 all_tokens.append({'type': 'SYMBOL', 'value': line[i]})
                 i += 1
                 continue
-
-            if line[i].isspace():
-                i += 1
-                continue
             
+            # If line is a word
             if line[i].isalpha():
                 ident = ''
                 while i < len(line) and (line[i].isalnum() or line[i] == '_'):
                     ident += line[i]
                     i += 1
-                if ident in ["bool", "string", "int", "char", "float", "output", "declare"]:
+                if ident in ["bool", "string", "int", "char", "float", "output", "declare", "ord", "order"]:
                     all_tokens.append({'type': 'KEYWORD', 'value': ident})
+                elif ident == "true" or ident == "false":
+                    all_tokens.append({"type": "BOOL", "value": ident})                    
                 else:
                     all_tokens.append({'type': 'IDENTIFIER', 'value': ident})
                 continue
+
+            # Detech right bracket for Order    
+            if line[i] == "[":
+                all_tokens.append({"type": "LBRACKET", "value": line[i]})
+                i += 1
+                continue
+
+            if line[i] == ",":
+                all_tokens.append({"type": "COMMA", "value": line[i]})
+                i += 1
+                continue
+
+            if line[i] == "]":
+                all_tokens.append({"type": "RBRACKET", "value": line[i]})
+                i += 1
+                continue
+                    
+            # If line is a number
             if line[i].isdigit():
                 num = ''
                 while i < len(line) and line[i].isdigit():
@@ -62,6 +84,8 @@ with open(filename, 'r') as file:
                     i += 1
                 all_tokens.append({'type': 'INT', 'value': num})
                 continue
+
+            # If line is a string
             if line[i] in ['"']:
                 i += 1
                 string_val = ''
@@ -81,6 +105,7 @@ with open(filename, 'r') as file:
                 continue
 
             raise LexerError(f"Illegal character {line[i]!r} on line {index + 1}")
+
         index += 1    
 
         with open(output_path, "w") as out_file:

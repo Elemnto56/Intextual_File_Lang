@@ -22,6 +22,7 @@ with open(file, "r") as f:
     lines = f.readlines()
 
     i = 0
+    depth = 0
     while i < len(lines):
         line = lines[i].strip()
 
@@ -33,17 +34,36 @@ with open(file, "r") as f:
                 raw = lines[i].strip()
                 if raw.count("//"):
                     raw = raw.split("//")[0].strip()
-                ast.append(raw)
-                if raw == ']':
-                    break
-                i += 1
                 
-            raw_json = '\n'.join(ast)
+                depth += raw.count("[")
+                depth -= raw.count("]")
+
+                ast.append(raw)
+
+                if depth == 0 and raw == "]":
+                    break
+
+                i += 1
+
+            ast_clean = [line for line in ast if line.strip()]
+
+            raw_json_str = "\n".join(ast_clean)
 
             try:
-                data = json.loads(raw_json)
+                patched = []
+                data = json.loads(raw_json_str)
+
+                for node in data:
+                    patched.append(node)
+                    if node.get("semicolon") != True:
+                        patched.append({
+                            "semicolon": ";"
+                        })
+
+                print(patched)
+
                 with open(isec_path, "w") as ast_file:
-                    json.dump(data, ast_file, indent=2)
+                    json.dump(patched, ast_file, indent=2)
             except json.decoder.JSONDecodeError:
                 print("Could not decode")
             

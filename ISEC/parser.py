@@ -1,11 +1,13 @@
 import json
 import os
+from errors import MissingBreaker
 
-# paths
+#region paths
 script_dir = os.path.dirname(os.path.abspath(__file__))
 ast_path = os.path.join(script_dir, "ast.json")
-
 tokens_path = os.path.join(script_dir, "tokens.json")
+#endregion
+
 with open(tokens_path, "r") as f:
     tokens = json.load(f)
 
@@ -15,7 +17,9 @@ with open(tokens_path, "r") as f:
     # Fuctions
     # Grab token and move along
     def current():
-        return tokens[index] if index < len(tokens) else None
+        if index >= len(tokens):
+            raise MissingBreaker("Unexpected end")
+        return tokens[index]
     
     # Advance index
     def advance():
@@ -26,7 +30,7 @@ with open(tokens_path, "r") as f:
         token = current()
 
         if token["type"] == "KEYWORD":
-            if token["value"] in ["int", "float", "char", "bool", "string"]:
+            if token["value"] in ["int", "float", "char", "bool", "string", "ord", "order"]:
                 var_type = token["value"]
                 advance()
                 token = current()
@@ -46,9 +50,44 @@ with open(tokens_path, "r") as f:
                         if token["type"] == "SYMBOL" and token["value"] in ["="]:
                             advance()
                             token = current()
+                            items = []
+
+                            if token["type"] == "LBRACKET" and token["value"] == "[":
+                                advance()
+                                while True:
+                                    tok = current()
+                                    if tok is None:
+                                        raise MissingBreaker("List too long; didn't see ']")
+                                    
+                                    if tok["type"] in ["INT", "FLOAT", "CHAR", "BOOL", "STRING"]:
+                                        items.append(tok["value"])
+                                        advance()
+                                        continue
+
+                                    if tok["type"] == "COMMA" and tok["value"] == ",":
+                                        advance()
+                                        continue
+
+                                    if tok["type"] == "RBRACKET" and tok["value"] == "]":
+                                        advance()
+                                        break
+                                        
+                                        
+                                    raise MissingBreaker(f"Expected a comma or closing bracket, got {tok!r} instead")
+                            
+                                var_value = items
+                                
+                                ast.append({
+                                    "type": "declare",
+                                    "var_type": var_type,
+                                    "var_name": var_name,
+                                    "var_value": var_value
+                                })
+
 
                             # Check what type of thing the variable is being assigned to [DECLARE]
                             if token["type"] in ["INT", "FLOAT", "CHAR", "BOOL", "STRING"]:
+                                
                                 var_value = token["value"]
                                 ast.append({
                                     "type": "declare",
@@ -57,7 +96,6 @@ with open(tokens_path, "r") as f:
                                     "var_value": var_value
                                 })
                                 advance()
-                                token = current()
                                 
 
             elif token["value"] == "output":

@@ -138,6 +138,7 @@ try:
 
                             read_result = read(arg_string)
                             variables[name] = read_result
+                            types[name] = "string"
                         else:
                             variables[name] = str(value)
                             types[name] = "string"
@@ -178,6 +179,8 @@ try:
 
             # OUTPUT print statement logic
             if line.startswith("output"):
+                print(types)
+                print(variables)
                 output_expr = line[7:].replace(';', '').strip()
                 if output_expr.count("+") >= 1:
                     parts = output_expr.split(" + ")
