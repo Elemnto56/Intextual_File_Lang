@@ -98,7 +98,7 @@ with open(filename, 'r') as file:
                 i += 1
 
                 if i >= len(line):
-                    raise LexerError(f"Unterminated string on line {index + 1}")
+                    raise LexerError(f"String ranged out on line {index + 1}. Did you forget a breaker?")
                 
 
                 all_tokens.append({'type': 'STRING', 'value': string_val})

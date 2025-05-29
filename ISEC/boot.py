@@ -3,9 +3,7 @@ import time
 import subprocess
 import os
 import json
-
-class FileError(Exception):
-    pass
+from errors import ASTJSONCreateError
 
 #region Important stuff and paths
 main_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -60,12 +58,11 @@ with open(file, "r") as f:
                             "semicolon": ";"
                         })
 
-                print(patched)
 
                 with open(isec_path, "w") as ast_file:
                     json.dump(patched, ast_file, indent=2)
             except json.decoder.JSONDecodeError:
-                print("Could not decode")
+                raise ASTJSONCreateError("An error occured when converting RawAST to a JSON. Did you break one or more of JSON's rules?")
             
             print("[ISEC] Running interpreter based on RawAST...")
             time.sleep(1)

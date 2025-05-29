@@ -14,7 +14,9 @@ boot_file = os.path.join(root, "ISEC", "boot.py")
 
 try:
     ast_file = os.path.join(root, "ISEC", "ast.json")
+    token_file = os.path.join(root, "ISEC", "tokens.json")
     os.remove(ast_file)
+    os.remove(token_file)
 except FileNotFoundError:
     pass 
 

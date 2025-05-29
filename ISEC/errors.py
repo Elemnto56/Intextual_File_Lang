@@ -1,5 +1,8 @@
 import sys
 
+class FileError(Exception):
+    pass
+
 class MissingBreaker(Exception):
     pass
 
@@ -7,6 +10,9 @@ class InvalidNode(Exception):
     pass
 
 class LexerError(Exception):
+    pass
+
+class ASTJSONCreateError(Exception):
     pass
 
 def clean_exit_hook(exc_type, exc_value, _):

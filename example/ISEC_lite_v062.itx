@@ -1,0 +1,26 @@
+@RawAST
+
+[
+  {
+    "type": "if",
+    "condition": {
+      "left": 5,
+      "operator": "==",
+      "right": 5
+    },
+    "body": [
+      {
+        "type": "output",
+        "value": "Hello World"
+      }
+    ]
+  },
+  {
+    "type": "declare",
+    "var_type": "ord",
+    "var_name": "fruits",
+    "var_value": ["apple", "cherry", "banana"]
+  }
+]
+
+// Showcase of AST if statements and lists

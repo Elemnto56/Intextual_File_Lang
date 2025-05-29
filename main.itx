@@ -1,19 +1,29 @@
-// --- simple list declaration & output using “ord” ---
-ord declare fruits = ["apple", "banana", "cherry"];
-output fruits;         // 👉 prints: ['apple', 'banana', 'cherry']
+@RawAST
+// Run Me
 
-// --- same with the “order” keyword ---
-order declare letters = ["a", "b", "c"];
-output letters;        // 👉 prints: ['a', 'b', 'c']
-
-// --- empty list ---
-ord declare empty = [];
-output empty;          // 👉 prints: []
-
-// --- numeric lists ---
-ord declare numbers = [1, 2, 3, 4, 5];
-output numbers;        // 👉 prints: [1, 2, 3, 4, 5]
-
-// --- mixed-type lists (strings, ints, bools) ---
-ord declare mixed = ["red", 7, true];
-output mixed;          // 👉 prints: ['red', 7, true]
+[
+	{
+		"type": "declare",
+		"var_type": "ord",
+		"var_name": "fruit",
+		"var_value": ["cherry", "orange", "apple"]
+	},
+	{
+		"type": "output",
+		"value": "fruit"
+	},
+	{
+		"type": "if",
+		"condition": {
+			"left": 5,
+			"operator": ">",
+			"right": 3
+		},
+		"body": [
+			{
+				"type": "output",
+				"value": "Hello World"
+			}
+		]
+	}
+]

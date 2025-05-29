@@ -127,17 +127,17 @@ with open(ast_path, "r") as f:
             elif typE not in valid_types:
                 raise InvalidNode(f"Invalid type: \"{typE}\" in node: \n{json.dumps(node, indent=2)}")
 
-            variables[name] = value
-
             if i + 1 >= len(tree) or "semicolon" not in tree[i + 1]:
-                raise MissingBreaker(f"No semicolon found at AST node \n{json.dumps(node, indent=2)}\n ^ Missing here")
+                raise MissingBreaker(f"No semicolon found at AST node or line of Intext \n{json.dumps(node, indent=2)}\n ^ Missing here\n---Or on this line---\n {typE} declare {name} = {value} <-- Here")
+
+            variables[name] = value
 
             
         elif node.get("type") == "output":
             val = node["value"]
 
             if i + 1 >= len(tree) or "semicolon" not in tree[i + 1]:
-                raise MissingBreaker(f"No semicolon found at AST node \n{json.dumps(node, indent=2)}\n ^ Missing here")
+                raise MissingBreaker(f"No semicolon found at AST node or line of Intext \n{json.dumps(node, indent=2)}\n ^ Missing here\n---Or on this line---\n output {val} <-- Here")
 
             if val in variables:
                 if variables[val] == True:
@@ -165,6 +165,10 @@ with open(ast_path, "r") as f:
             # Unpack
             left = logic["left"]
             right = logic["right"]
+            if left in variables:
+                left = variables[left]
+            if right in variables:
+                right = variables[right]
             op = logic["operator"]
 
             body = node["body"]
