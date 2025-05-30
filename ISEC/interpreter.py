@@ -181,6 +181,9 @@ with open(ast_path, "r") as f:
                 
                 if result:
                     interpret(sub_node)
+        
+        elif node.get("comment"):
+            continue
             
             
         elif node.get("type") not in ["declare", "output", "if"] and "semicolon" not in node:

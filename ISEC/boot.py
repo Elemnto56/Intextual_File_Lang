@@ -54,7 +54,10 @@ with open(file, "r") as f:
                 for node in data:
                     patched.append(node)
                     if node.get("semicolon") != True:
-                        patched.append({
+                        if node.get("comment"):
+                            continue
+                        else:
+                            patched.append({
                             "semicolon": ";"
                         })
 

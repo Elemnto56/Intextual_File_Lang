@@ -9,6 +9,9 @@
 		"var_value": ["cherry", "orange", "apple"]
 	},
 	{
+		"comment": "Hello"
+	},
+	{
 		"type": "output",
 		"value": "fruit"
 	},

@@ -1,0 +1,42 @@
+[
+  {
+    "type": "declare",
+    "var_type": "ord",
+    "var_name": "fruit",
+    "var_value": [
+      "cherry",
+      "orange",
+      "apple"
+    ]
+  },
+  {
+    "semicolon": ";"
+  },
+  {
+    "comment": "Hello"
+  },
+  {
+    "type": "output",
+    "value": "fruit"
+  },
+  {
+    "semicolon": ";"
+  },
+  {
+    "type": "if",
+    "condition": {
+      "left": 5,
+      "operator": ">",
+      "right": 3
+    },
+    "body": [
+      {
+        "type": "output",
+        "value": "Hello World"
+      }
+    ]
+  },
+  {
+    "semicolon": ";"
+  }
+]
