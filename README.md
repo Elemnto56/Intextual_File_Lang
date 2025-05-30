@@ -21,9 +21,13 @@ RawText is an umbrella term to describe programming closer to the compenents of 
 - Basic error handling
 
 ## How to Run
-
+### For v0.3 and v0.5
 ```bash
 python3 og_parser.py <filename>.itx
+```
+### For v0.6 and above
+```bash
+python3 main.py
 ```
 - Make sure your file ends in .itx so it'll work!
 
@@ -35,8 +39,4 @@ For simplicity, for those who want to program in Intext, without dealing with th
 ## - BIG CHANGE; ISEC INFO -
 The way Intext runs, will be soon changed starting v0.7-pre. By change, I mean that Intext will run on a system called "ISEC", rather than a single file. ISEC stands for "Intext Script Execution Core", which will turn code into tokens, then into AST, then into execution. Developing this will be difficult, so expect a long wait. An expriemental version of ISEC has been released on v0.6-pre. Check the releases and stay tuned!
 
-## Roadmap
-- [x] v0.6-pre Initial release of ISEC-lite
-- [ ] v0.6.5-pre ISEC-lite will recieve better error-handling for Intext and RawAST
-- [ ] v0.7-pre ISEC-lite will either undergo serious changes, or the full ISEC will be released
-- [ ] v0.7.5-pre More syntax, such as while loops, and lists
+##  [Changelog](CHANGELOG.md)
