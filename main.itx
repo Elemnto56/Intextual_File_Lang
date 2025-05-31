@@ -1,32 +1,5 @@
-@RawAST
-// Run Me
-
-[
-	{
-		"type": "declare",
-		"var_type": "ord",
-		"var_name": "fruit",
-		"var_value": ["cherry", "orange", "apple"]
-	},
-	{
-		"comment": "Hello"
-	},
-	{
-		"type": "output",
-		"value": "fruit"
-	},
-	{
-		"type": "if",
-		"condition": {
-			"left": 5,
-			"operator": ">",
-			"right": 3
-		},
-		"body": [
-			{
-				"type": "output",
-				"value": "Hello World"
-			}
-		]
-	}
-]
+int declare a = 5;
+float declare y = 5.24;
+string declare name = "John Doe";
+bool declare x = true;
+char declare y = 'C'; 

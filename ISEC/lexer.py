@@ -55,7 +55,7 @@ with open(filename, 'r') as file:
                 if ident in ["bool", "string", "int", "char", "float", "output", "declare", "ord", "order"]:
                     all_tokens.append({'type': 'KEYWORD', 'value': ident})
                 elif ident == "true" or ident == "false":
-                    all_tokens.append({"type": "BOOL", "value": ident})                    
+                    all_tokens.append({"type": "BOOL", "value": ident})
                 else:
                     all_tokens.append({'type': 'IDENTIFIER', 'value': ident})
                 continue
@@ -79,7 +79,7 @@ with open(filename, 'r') as file:
             # If line is a number
             if line[i].isdigit():
                 num = ''
-                while i < len(line) and line[i].isdigit():
+                while i < len(line) and (line[i].isdigit() or line[i] == "."):
                     num += line[i]
                     i += 1
                 all_tokens.append({'type': 'INT', 'value': num})
