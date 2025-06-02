@@ -142,3 +142,25 @@ This release marks the introduction of RawAST, a new way to write Intext program
 
 ***
 
+**Intextual File Lang – Version 0.6.2 Pre-Release**
+
+**Title:** Improving RawAST with Major Changes 
+**Status:** Pre-Release *to ISEC*
+**Release Date:** May 28, 2025
+
+**Overview:**
+
+This release improves RawAST by adding more programming concepts. Along with that, Standard Intext gets an improvement as well. Consider this release to be start of logic-building across all of Intext.
+
+**What's Included:**
+
+- **If Statements**
+    You can now make If-Statements in RawAST. Not in Standard Intext though. However, it's very basic in logic.
+
+- **Lists**
+    Lists are now introduced in both Standard Intext and RawAST! However, they are called "orders", so lists are called "orders" in Intext.
+
+- **Error-solving**
+    More in-depth errors are now shown whenever you make a mistake. While they may be more exclusive to RawAST, Standard Intext users can benefit from this improvement as well.
+
+***
