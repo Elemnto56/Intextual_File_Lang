@@ -1,9 +1,20 @@
 import subprocess
 import time
 import os
+import sys
 
 user = input("What file to run? (You don't need to incude the .itx)\n")
 noask = user
+
+special_check = sys.argv[1]
+if special_check == "--nowait":
+    subprocess.run(["python3", "ISEC/lexer.py", f"{noask}.itx"], check=True)
+
+    subprocess.run(["python3", "ISEC/parser.py"], check=True)
+
+    print("------ OUTPUT ------")
+    subprocess.run(["python3", "ISEC/interpreter.py"], check=True)
+    sys.exit(0)
 
 with open(f"{noask}.itx", "r") as f:
     source_lines = f.readlines()

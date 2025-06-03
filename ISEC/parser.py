@@ -99,21 +99,81 @@ with open(tokens_path, "r") as f:
                                 
 
             elif token["value"] == "output":
-                advance()
+                advance()            
                 token = current()
+
                 if token["type"] == "IDENTIFIER":
-                    name = token["value"]
-                    ast.append({
-                        "type": "output",
-                        "value": name
-                    })
+                    name = token["value"]  
+                    advance()              
+                    token = current()       
+
+                    if token["type"] == "LBRACKET":
+                        advance()          
+                        token = current()  
+                        val = token["value"]
+                        advance()         
+                        token = current()
+
+                        if token["type"] == "RBRACKET":
+                            advance() 
+
+                        ast.append({
+                            "type": "output",
+                            "value": {
+                                "index": name,
+                                "val": val
+                            }
+                        })
+                    else:
+                        ast.append({
+                            "type": "output",
+                            "value": name
+                        })
                 elif token["type"] in ["INT", "FLOAT", "CHAR", "BOOL", "STRING"]:
                     literal = token["value"]
                     ast.append({
                         "type": "output",
                         "value": literal
                     })
+                    advance()
+
+            elif token["value"] == "declare":
                 advance()
+                token = current()
+                if token["type"] == "IDENTIFIER":
+                    name = token["value"]
+                    advance()
+                    token = current()
+                    if token["type"] == "SYMBOL":
+                        advance()
+                        token = current()
+                        if token["type"] == "IDENTIFIER":
+                            list_name = token["value"]
+                            advance()
+                            token = current()
+                            if token["type"] == "LBRACKET":
+                                advance()
+                                token = current()
+                                list_index = token["value"]
+                                ast.append({
+                                    "type": "declare",
+                                    "var_type": "void",
+                                    "var_name": name,
+                                    "var_value": {
+                                        "index": list_name,
+                                        "val": list_index
+                                    }
+                                })
+                                advance()
+                                advance()
+
+                                    
+
+
+
+
+                    
+
 
         if token["type"] == "SYMBOL" and token["value"] == ';':
             end_semi = token["value"]

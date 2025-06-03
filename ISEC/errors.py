@@ -15,8 +15,11 @@ class LexerError(Exception):
 class ASTJSONCreateError(Exception):
     pass
 
+class RangeException(Exception):
+    pass
+
 def clean_exit_hook(exc_type, exc_value, _):
-    if exc_type.__name__ in ["InvalidNode", "MissingBreaker"]:
+    if exc_type.__name__ in ["InvalidNode", "MissingBreaker", "RangeException"]:
         print(f"\033[1;35m{exc_type.__name__}:\033[0;35m {exc_value}\033[0m")
     else:
         sys.__excepthook__(exc_type, exc_value, _)

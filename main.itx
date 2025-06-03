@@ -1,5 +1,6 @@
-int declare a = 5;
-float declare y = 5.24;
-string declare name = "John Doe";
-bool declare x = true;
-char declare y = 'C'; 
+order declare fruits = ["apple", "banana", "orange", "cherry"];
+
+
+declare x = fruits[3];
+output x;
+output fruits[3];

@@ -75,6 +75,14 @@ with open(filename, 'r') as file:
                 all_tokens.append({"type": "RBRACKET", "value": line[i]})
                 i += 1
                 continue
+
+            if line[i] == "'":
+                if i + 2 < len(line) and line[i + 2] == "'":
+                    char = line[i + 1]
+                    all_tokens.append({"type": "CHAR", "value": char})
+                    i += 3
+                    continue
+                    
                     
             # If line is a number
             if line[i].isdigit():

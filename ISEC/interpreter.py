@@ -1,7 +1,7 @@
 import json
 import os
 import sys
-from errors import InvalidNode, MissingBreaker, clean_exit_hook
+from errors import InvalidNode, MissingBreaker, clean_exit_hook, RangeException
 
 #region Functions
 def interpret(node):
@@ -13,25 +13,25 @@ def interpret(node):
 
         name = node["var_name"]
         value = node["var_value"]
-        typE = node["var_type"]
+        type_ = node["var_type"]
 
-        if typE == "int":
+        if type_ == "int":
             value = int(value)
-        elif typE == "float":
+        elif type_ == "float":
             value = float(value)
-        elif typE == "bool":
+        elif type_ == "bool":
             if value.lower() == "true":
                 value = True
             else:
                 value = False
-        elif typE == "char":
+        elif type_ == "char":
             value = value.replace("'","")
             value = ord(value)
             value = chr(value)
-        elif typE == "string":
+        elif type_ == "string":
             value = str(value)
-        elif typE not in valid_types:
-            raise InvalidNode(f"Invalid type: \"{typE}\" in node: \n{json.dumps(node, indent=2)}")
+        elif type_ not in valid_types:
+            raise InvalidNode(f"Invalid type: \"{type_}\" in node: \n{json.dumps(node, indent=2)}")
 
         variables[name] = value
     
@@ -104,31 +104,32 @@ with open(ast_path, "r") as f:
 
             name = node["var_name"]
             value = node["var_value"]
-            typE = node["var_type"]
+            type_ = node["var_type"]
 
-            if typE == "int":
+            if type_ == "int":
                 value = int(value)
-            elif typE == "float":
+            elif type_ == "float":
                 value = float(value)
-            elif typE == "bool":
+            elif type_ == "bool":
                 if value.lower() == "true":
                     value = True
                 else:
                     value = False
-            elif typE == "char":
+            elif type_ == "char":
                 value = value.replace("'","")
                 value = ord(value)
                 value = chr(value)
-            elif typE == "string":
+            elif type_ == "string":
                 value = str(value)
-            elif typE == "ord" or typE == "order":
+            elif type_ == "ord" or type_ == "order":
                 variables[name] = list(value)
-
-            elif typE not in valid_types:
-                raise InvalidNode(f"Invalid type: \"{typE}\" in node: \n{json.dumps(node, indent=2)}")
+            elif type_ == "void":
+                variables[name] = value
+            elif type_ not in valid_types:
+                raise InvalidNode(f"Invalid type: \"{type_}\" in node: \n{json.dumps(node, indent=2)}")
 
             if i + 1 >= len(tree) or "semicolon" not in tree[i + 1]:
-                raise MissingBreaker(f"No semicolon found at AST node or line of Intext \n{json.dumps(node, indent=2)}\n ^ Missing here\n---Or on this line---\n {typE} declare {name} = {value} <-- Here")
+                raise MissingBreaker(f"No semicolon found at AST node or line of Intext \n{json.dumps(node, indent=2)}\n ^ Missing here\n---Or on this line---\n {type_} declare {name} = {value} <-- Here")
 
             variables[name] = value
 
@@ -139,15 +140,34 @@ with open(ast_path, "r") as f:
             if i + 1 >= len(tree) or "semicolon" not in tree[i + 1]:
                 raise MissingBreaker(f"No semicolon found at AST node or line of Intext \n{json.dumps(node, indent=2)}\n ^ Missing here\n---Or on this line---\n output {val} <-- Here")
 
-            if val in variables:
-                if variables[val] == True:
-                    print("true")
-                elif variables[val] == False:
-                    print("false")
+            try:
+                if type(val) is dict:
+                    if val["index"] in variables:
+                        list_var = val["index"]
+                        list_ = variables[list_var]
+                        if type(list_) is list:
+                            index = int(val["val"])
+                            print(list_[index])
+            
+                elif val in variables:
+                    if variables[val] == True:
+                        print("true")
+                    elif variables[val] == False:
+                        print("false")
+                    elif type(variables[val]) is dict:
+                        var = variables[val]
+                        if var["index"] in variables:
+                            list_var = var["index"]
+                            list_ = variables[list_var]
+                            if type(list_) is list:
+                                index = int(var["val"])
+                                print(list_[index])
+                    else:
+                        print(variables[val])
                 else:
-                    print(variables[val])
-            else:
-                print(val)
+                    print(val)
+            except IndexError:
+                raise RangeException(f"Range exceeded the bounds of the indexed order \n {json.dumps(variables[val], indent=2)}")
 
         elif node.get("type") == "if":
             allowed_ops = {
