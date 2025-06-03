@@ -5,7 +5,7 @@ import sys
 
 user = input("What file to run? (You don't need to incude the .itx)\n")
 noask = user
-
+#
 special_check = sys.argv[1]
 if special_check == "--nowait":
     subprocess.run(["python3", "ISEC/lexer.py", f"{noask}.itx"], check=True)
