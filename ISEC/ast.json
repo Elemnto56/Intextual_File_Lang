@@ -1,0 +1,20 @@
+[
+  {
+    "type": "declare",
+    "var_type": "void",
+    "var_name": "x",
+    "var_value": "5"
+  },
+  {
+    "semicolon": ";"
+  },
+  {
+    "type": "declare",
+    "var_type": "void",
+    "var_name": "t",
+    "var_value": "true"
+  },
+  {
+    "semicolon": ";"
+  }
+]

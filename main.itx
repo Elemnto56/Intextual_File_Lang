@@ -1,6 +1,2 @@
-order declare fruits = ["apple", "banana", "orange", "cherry"];
-
-
-declare x = fruits[3];
-output x;
-output fruits[3];
+declare x = 5;
+declare t = true;

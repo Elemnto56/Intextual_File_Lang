@@ -147,33 +147,22 @@ with open(tokens_path, "r") as f:
                     if token["type"] == "SYMBOL":
                         advance()
                         token = current()
-                        if token["type"] == "IDENTIFIER":
+                        if token["type"] in ["INT", "BOOL", "FLOAT", "CHAR", "STRING"]:
                             list_name = token["value"]
                             advance()
                             token = current()
-                            if token["type"] == "LBRACKET":
-                                advance()
-                                token = current()
-                                list_index = token["value"]
+                            if token["type"] == "SYMBOL":
                                 ast.append({
                                     "type": "declare",
                                     "var_type": "void",
                                     "var_name": name,
-                                    "var_value": {
-                                        "index": list_name,
-                                        "val": list_index
-                                    }
+                                    "var_value": list_name
                                 })
-                                advance()
-                                advance()
-
-                                    
-
-
+                                token = current()
+                                
 
 
                     
-
 
         if token["type"] == "SYMBOL" and token["value"] == ';':
             end_semi = token["value"]
