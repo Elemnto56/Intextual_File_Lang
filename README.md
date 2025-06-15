@@ -2,6 +2,9 @@
 
 Intext is a lightweight, Python-powered scripting language built for embedding structured text and reading external files. It's meant to be simple, flexible, and readable, yet closer to natural English than traditional programming languages (Some may argue). You write what you mean, and it just works (in theory).
 
+## NOTE
+At the time of writing this, I do not feel well. The status of Intext shall remain unknown until I recover. Thanks for those who support!
+
 ## Current Features
 
 - `output` statements for printing anything (int, string, bool, whatever)
@@ -40,3 +43,4 @@ For simplicity, for those who want to program in Intext, without dealing with th
 The way Intext runs, will be soon changed starting v0.7-pre. By change, I mean that Intext will run on a system called "ISEC", rather than a single file. ISEC stands for "Intext Script Execution Core", which will turn code into tokens, then into AST, then into execution. Developing this will be difficult, so expect a long wait. An expriemental version of ISEC has been released on v0.6-pre. Check the releases and stay tuned!
 
 ##  [Changelog](CHANGELOG.md)
+View the latest and oldest changes!
