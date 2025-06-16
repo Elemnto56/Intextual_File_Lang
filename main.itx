@@ -1,32 +1,176 @@
-// --- Basic Crunch Tests ---
-declare a = crunch(5, 2, +);    // 7
-declare b = crunch(10, 4, -);   // 6
-declare c = crunch(3, 3, *);    // 9
-declare d = crunch(10, 2, /);   // 5
+@RawAST
 
-output a + " | " + b + " | " + c + " | " + d;
-
-// --- Forced Type: string ---
-declare str_a = crunch(5, 5, +, string);   // "10"
-output "As string: " + str_a;
-
-// --- Forced Type: bool ---
-declare is_true = crunch(3, 0, +, bool);   // True
-declare is_false = crunch(0, 0, +, bool);  // False
-output "Bool test: " + is_true + " " + is_false;
-
-// --- Forced Type: char ---
-declare char_A = crunch(65, 0, +, char);    // 'A'
-declare char_B = crunch(66, 0, +, char);    // 'B'
-output "Chars: " + char_A + char_B;
-
-// --- Crunch inside output directly ---
-output crunch(8, 2, *, string);
-
-// --- Invalid: division by zero ---
-declare div_zero = crunch(10, 0, /);        // Should error or handle gracefully
-output "Div zero test: " + div_zero;
-
-// --- Invalid: char overflow ---
-declare bad_char = crunch(999999, 0, +, char);  // Should error
-output "Bad char: " + bad_char;
+[
+    {
+        "type": "declare",
+        "var_type": "void",
+        "var_name": "name",
+        "var_value": "Jay"
+    },
+    {
+        "semicolon": ";"
+    },
+    {
+        "type": "declare",
+        "var_type": "void",
+        "var_name": "age",
+        "var_value": "15"
+    },
+    {
+        "type": "declare",
+        "var_type": "void",
+        "var_name": "is_dev",
+        "var_value": "true"
+    },
+    {
+        "type": "output",
+        "value": [
+            "User: ",
+            "name",
+            ", Age: ",
+            "age",
+            ", Dev: ",
+            "is_dev"
+        ]
+    },
+    {
+        "type": "declare",
+        "var_type": "void",
+        "var_name": "sum",
+        "var_value": {
+            "type": "crunch",
+            "left": "10",
+            "op": "+",
+            "right": "5"
+        }
+    },
+    {
+        "type": "declare",
+        "var_type": "void",
+        "var_name": "product",
+        "var_value": {
+            "type": "crunch",
+            "left": "6",
+            "op": "*",
+            "right": "7"
+        }
+    },
+    {
+        "type": "declare",
+        "var_type": "void",
+        "var_name": "ratio",
+        "var_value": {
+            "type": "crunch",
+            "left": "10",
+            "op": "/",
+            "right": "2"
+        }
+    },
+    {
+        "type": "output",
+        "value": [
+            "Math: ",
+            "sum",
+            ", ",
+            "product",
+            ", ",
+            "ratio"
+        ]
+    },
+    {
+        "type": "declare",
+        "var_type": "void",
+        "var_name": "bool_test",
+        "var_value": {
+            "type": "crunch",
+            "left": "1",
+            "op": "+",
+            "right": "1",
+            "forced_type": "bool"
+        }
+    },
+    {
+        "type": "declare",
+        "var_type": "void",
+        "var_name": "char_A",
+        "var_value": {
+            "type": "crunch",
+            "left": "65",
+            "op": "+",
+            "right": "0",
+            "forced_type": "char"
+        }
+    },
+    {
+        "type": "declare",
+        "var_type": "void",
+        "var_name": "stringified",
+        "var_value": {
+            "type": "crunch",
+            "left": "100",
+            "op": "-",
+            "right": "23",
+            "forced_type": "string"
+        }
+    },
+    {
+        "type": "output",
+        "value": [
+            "Forced types: ",
+            "bool_test",
+            ", ",
+            "char_A",
+            ", ",
+            "stringified"
+        ]
+    },
+    {
+        "type": "declare",
+        "var_type": "void",
+        "var_name": "readout",
+        "var_value": {
+            "type": "read",
+            "path": "sample.txt"
+        }
+    },
+    {
+        "type": "output",
+        "value": [
+            "readout"
+        ]
+    },
+    {
+        "type": "declare",
+        "var_type": "void",
+        "var_name": "bad_div",
+        "var_value": {
+            "type": "crunch",
+            "left": "5",
+            "op": "/",
+            "right": "0"
+        }
+    },
+    {
+        "type": "declare",
+        "var_type": "void",
+        "var_name": "bad_char",
+        "var_value": {
+            "type": "crunch",
+            "left": "999999",
+            "op": "+",
+            "right": "0",
+            "forced_type": "char"
+        }
+    },
+    {
+        "type": "output",
+        "value": [
+            "Error cases: ",
+            "bad_char"
+        ]
+    },
+    {
+        "type": "output",
+        "value": "Script finished successfully."
+    }
+]

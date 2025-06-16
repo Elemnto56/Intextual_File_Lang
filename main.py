@@ -26,7 +26,23 @@ try:
         match option:
             case 1:
                 os.execv(sys.executable, [sys.executable, os.path.abspath("ISEC/macro_system/macro_handle.py")])
-        # sys.exit(0)
+    
+    if special_check == "--version" or special_check == "--v":
+        print("""
+        +----------------------------------+
+        |      Intext Language v0.6.3      |
+        |       "Spaghetti & Crunch"       |
+        +----------------------------------+
+
+        > Spaghetti Output
+        > crunch() support
+        > read() support
+        > Error-handling enhancements
+
+        Built by: Elemnto56
+        """)
+        sys.exit(0)
+    
                 
 except IndexError:
     pass
@@ -42,10 +58,13 @@ root = os.path.dirname(os.path.abspath(__file__))
 intext_file = os.path.join(root, f"{noask}.itx")
 boot_file = os.path.join(root, "ISEC", "boot.py")
 
-ast_file = os.path.join(root, "ISEC", "ast.json")
-token_file = os.path.join(root, "ISEC", "tokens.json")
-os.remove(ast_file)
-os.remove(token_file)
+try:
+    ast_file = os.path.join(root, "ISEC", "ast.json")
+    token_file = os.path.join(root, "ISEC", "tokens.json")
+    os.remove(ast_file)
+    os.remove(token_file)
+except FileNotFoundError:
+    pass
 
 print("[ISEC] Checking special conditions...")
 time.sleep(1)
