@@ -2,9 +2,6 @@
 
 Intext is a lightweight, Python-powered scripting language built for embedding structured text and reading external files. It's meant to be simple, flexible, and readable, yet closer to natural English than traditional programming languages (Some may argue). You write what you mean, and it just works (in theory).
 
-## NOTE
-At the time of writing this, I do not feel well. The status of Intext shall remain unknown until I recover. Thanks for those who support!
-
 ## Current Features
 
 - `output` statements for printing anything (int, string, bool, whatever)
