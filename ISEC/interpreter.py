@@ -1,7 +1,11 @@
 import json
 import os
 import sys
-from errors import InvalidNode, MissingBreaker, clean_exit_hook, RangeException
+from errors import *
+
+# paths
+script_dir = os.path.dirname(os.path.abspath(__file__))
+ast_path = os.path.join(script_dir, "ast.json")
 
 #region Functions
 def interpret(node):
@@ -78,11 +82,93 @@ def interpret(node):
         
     elif node.get("type") not in ["declare", "output", "if"] and "semicolon" not in node:
             raise InvalidNode(f"Invalid sytax node \n{json.dumps(node, indent=2)}")
+    
+def read(path):
+    target_path = os.path.normpath(os.path.join(script_dir, path))
+    contents = []
+
+    try: 
+        with open(target_path, "r") as f:
+            lines = f.readlines()
+            file_i = 0
+            while file_i < len(lines):
+                contents.append(lines[file_i].strip())
+                file_i += 1
+        return contents
+    except FileNotFoundError:
+        raise FileError(f"Could not find file {path}")
+    
+def crunch(arg_1, arg_2, op, forced_type=None):
+            result = 0
+            if op == '+':
+                if forced_type == "string":
+                    result = int(arg_1) + int(arg_2)
+                    answer = str(result)
+                    return answer
+                elif forced_type == "bool":
+                    result = int(arg_1) + int(arg_2)
+                    if result != 0:
+                        return True
+                    elif result == 0:
+                        return False
+                elif forced_type == "char":
+                    result = int(arg_1) + int(arg_2)
+                    return chr(result)
+                else:
+                    return int(arg_1) + int(arg_2)
+            elif op == '-':
+                if forced_type == "string":
+                    result = int(arg_1) - int(arg_2)
+                    answer = str(result)
+                    return answer
+                elif forced_type == "bool":
+                    result = int(arg_1) - int(arg_2)
+                    if result != 0:
+                        return True
+                    elif result == 0:
+                        return False
+                elif forced_type == "char":
+                    result = int(arg_1) - int(arg_2)
+                    return chr(result)
+                else:
+                    return int(arg_1) - int(arg_2)
+            elif op == '*':
+                if forced_type == "string":
+                    result = int(arg_1) * int(arg_2)
+                    answer = str(result)
+                    return answer
+                elif forced_type == "bool":
+                    result = int(arg_1) * int(arg_2)
+                    if result != 0:
+                        return True
+                    elif result == 0:
+                        return False
+                elif forced_type == "char":
+                    result = int(arg_1) * int(arg_2)
+                    return chr(result)
+                else:
+                    return int(arg_1) * int(arg_2)
+            elif op == '/':
+                try:
+                    if forced_type == "string":
+                        result = int(arg_1) / int(arg_2)
+                        answer = str(result)
+                        return answer
+                    elif forced_type == "bool":
+                        result = int(arg_1) / int(arg_2)
+                        if result != 0:
+                            return True
+                        elif result == 0:
+                            return False
+                    elif forced_type == "char":
+                        result = int(arg_1) / int(arg_2)
+                        return chr(int(result))
+                    else:
+                        return int(arg_1) / int(arg_2)
+                except ZeroDivisionError:
+                    raise ZeroCannotRuleTheWorld("You cannot divide zero by anything")
 #endregion
 
-# paths
-script_dir = os.path.dirname(os.path.abspath(__file__))
-ast_path = os.path.join(script_dir, "ast.json")
 
 with open(ast_path, "r") as f:
     tree = json.load(f)
@@ -142,13 +228,75 @@ with open(ast_path, "r") as f:
 
             try:
                 if type(val) is dict:
-                    if val["index"] in variables:
-                        list_var = val["index"]
-                        list_ = variables[list_var]
-                        if type(list_) is list:
-                            index = int(val["val"])
-                            print(list_[index])
-            
+                    x = val.keys()
+                    if "index" in x:
+                        if val["index"] in variables:
+                            list_var = val["index"]
+                            list_ = variables[list_var]
+                            if type(list_) is list:
+                                index = int(val["val"])
+                                print(list_[index])
+                    
+                    if val["type"] == "read":
+                        path = val["path"]
+                        contents = read(path)
+                        for line in contents:
+                            print(line)
+
+                    elif val["type"] == "crunch":
+                        left = val["left"]
+                        op = val["op"]
+                        right = val["right"]
+                        if "forced_type" in val.keys():
+                            forced_type = val["forced_type"]
+                            result = crunch(left, right, op, forced_type)
+                            if result == True:
+                                result = "true"
+                            elif result == False:
+                                result = "false"
+                            print(result)
+                        else:
+                            result = crunch(left, right, op)
+                            print(result)
+                
+                elif type(val) is list:
+                    def current():
+                        return final_list[spag_index]
+                    spag_index = 0
+                    final_list = []
+                    while spag_index < len(val):
+                        if val[spag_index] in variables:
+                            var = variables[val[spag_index]]
+                            final_list.append(var)
+                            if type(var) is dict:
+                                if var["type"] == "read":
+                                    path = var["path"]
+                                    contents = read(path)
+                                    for line in contents:
+                                        final_list.append(line)
+                                if var["type"] == "crunch":
+                                    left = var["left"]
+                                    op = var["op"]
+                                    right = var["right"]
+                                    if "forced_type" in var.keys():
+                                        forced_type = var["forced_type"]
+                                        result = crunch(left, right, op, forced_type)
+                                        if result == True:
+                                            result = "true"
+                                        elif result == False:
+                                            result = "false"
+                                        final_list.append(result)
+                                    else:
+                                        result = crunch(left, right, op)
+                                        final_list.append(result)
+                        
+                        else:
+                            final_list.append(val[spag_index])
+                        spag_index += 1
+                    for item in final_list:
+                        if type(item) is dict:
+                            final_list.remove(item)
+                    print("".join(str(item) for item in final_list))           
                 elif val in variables:
                     if variables[val] == True:
                         print("true")
@@ -156,12 +304,35 @@ with open(ast_path, "r") as f:
                         print("false")
                     elif type(variables[val]) is dict:
                         var = variables[val]
-                        if var["index"] in variables:
-                            list_var = var["index"]
-                            list_ = variables[list_var]
-                            if type(list_) is list:
-                                index = int(var["val"])
-                                print(list_[index])
+                        x = var.keys()
+                        if "index" in x:
+                            if var["index"] in variables:
+                                list_var = var["index"]
+                                list_ = variables[list_var]
+                                if type(list_) is list:
+                                    index = int(var["val"])
+                                    print(list_[index])
+                        if var["type"] == "read":
+                            path = var["path"]
+                            contents = read(path)
+                            for line in contents:
+                                print(line)
+                        if var["type"] == "crunch":
+                            left = var["left"]
+                            op = var["op"]
+                            right = var["right"]
+                            if "forced_type" in var.keys():
+                                forced_type = var["forced_type"]
+                                result = crunch(left, right, op, forced_type)
+                                if result == True:
+                                    result = "true"
+                                elif result == False:
+                                    result = "false"
+                                print(result)
+                            else:
+                                result = crunch(left, right, op)
+                                print(result)
+                        
                     else:
                         print(variables[val])
                 else:

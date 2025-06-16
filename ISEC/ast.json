@@ -2,8 +2,13 @@
   {
     "type": "declare",
     "var_type": "void",
-    "var_name": "x",
-    "var_value": "5"
+    "var_name": "a",
+    "var_value": {
+      "type": "crunch",
+      "left": "5",
+      "op": "+",
+      "right": "2"
+    }
   },
   {
     "semicolon": ";"
@@ -11,8 +16,233 @@
   {
     "type": "declare",
     "var_type": "void",
-    "var_name": "t",
-    "var_value": "true"
+    "var_name": "b",
+    "var_value": {
+      "type": "crunch",
+      "left": "10",
+      "op": "-",
+      "right": "4"
+    }
+  },
+  {
+    "semicolon": ";"
+  },
+  {
+    "type": "declare",
+    "var_type": "void",
+    "var_name": "c",
+    "var_value": {
+      "type": "crunch",
+      "left": "3",
+      "op": "*",
+      "right": "3"
+    }
+  },
+  {
+    "semicolon": ";"
+  },
+  {
+    "type": "declare",
+    "var_type": "void",
+    "var_name": "d",
+    "var_value": {
+      "type": "crunch",
+      "left": "10",
+      "op": "/",
+      "right": "2"
+    }
+  },
+  {
+    "semicolon": ";"
+  },
+  {
+    "type": "output",
+    "value": [
+      "a",
+      " | ",
+      "b",
+      " | ",
+      "c",
+      " | ",
+      "d"
+    ]
+  },
+  {
+    "semicolon": ";"
+  },
+  {
+    "type": "output",
+    "value": "a"
+  },
+  {
+    "semicolon": ";"
+  },
+  {
+    "type": "declare",
+    "var_type": "void",
+    "var_name": "str_a",
+    "var_value": {
+      "type": "crunch",
+      "left": "5",
+      "op": "+",
+      "right": "5",
+      "forced_type": "string"
+    }
+  },
+  {
+    "semicolon": ";"
+  },
+  {
+    "type": "output",
+    "value": [
+      "",
+      "str_a"
+    ]
+  },
+  {
+    "semicolon": ";"
+  },
+  {
+    "type": "declare",
+    "var_type": "void",
+    "var_name": "is_true",
+    "var_value": {
+      "type": "crunch",
+      "left": "3",
+      "op": "+",
+      "right": "0",
+      "forced_type": "bool"
+    }
+  },
+  {
+    "semicolon": ";"
+  },
+  {
+    "type": "declare",
+    "var_type": "void",
+    "var_name": "is_false",
+    "var_value": {
+      "type": "crunch",
+      "left": "0",
+      "op": "+",
+      "right": "0",
+      "forced_type": "bool"
+    }
+  },
+  {
+    "semicolon": ";"
+  },
+  {
+    "type": "output",
+    "value": [
+      "",
+      "is_true",
+      " ",
+      "is_false"
+    ]
+  },
+  {
+    "semicolon": ";"
+  },
+  {
+    "type": "declare",
+    "var_type": "void",
+    "var_name": "char_A",
+    "var_value": {
+      "type": "crunch",
+      "left": "65",
+      "op": "+",
+      "right": "0",
+      "forced_type": "char"
+    }
+  },
+  {
+    "semicolon": ";"
+  },
+  {
+    "type": "declare",
+    "var_type": "void",
+    "var_name": "char_B",
+    "var_value": {
+      "type": "crunch",
+      "left": "66",
+      "op": "+",
+      "right": "0",
+      "forced_type": "char"
+    }
+  },
+  {
+    "semicolon": ";"
+  },
+  {
+    "type": "output",
+    "value": [
+      "",
+      "char_A",
+      "char_B"
+    ]
+  },
+  {
+    "semicolon": ";"
+  },
+  {
+    "type": "output",
+    "value": {
+      "type": "crunch",
+      "left": "8",
+      "op": "*",
+      "right": "2",
+      "forced_type": "string"
+    }
+  },
+  {
+    "semicolon": ";"
+  },
+  {
+    "type": "declare",
+    "var_type": "void",
+    "var_name": "div_zero",
+    "var_value": {
+      "type": "crunch",
+      "left": "10",
+      "op": "/",
+      "right": "0"
+    }
+  },
+  {
+    "semicolon": ";"
+  },
+  {
+    "type": "output",
+    "value": [
+      "",
+      "div_zero"
+    ]
+  },
+  {
+    "semicolon": ";"
+  },
+  {
+    "type": "declare",
+    "var_type": "void",
+    "var_name": "bad_char",
+    "var_value": {
+      "type": "crunch",
+      "left": "999999",
+      "op": "+",
+      "right": "0",
+      "forced_type": "char"
+    }
+  },
+  {
+    "semicolon": ";"
+  },
+  {
+    "type": "output",
+    "value": [
+      "",
+      "bad_char"
+    ]
   },
   {
     "semicolon": ";"

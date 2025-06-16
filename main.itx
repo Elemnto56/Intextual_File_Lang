@@ -1,2 +1,32 @@
-declare x = 5;
-declare t = true;
+// --- Basic Crunch Tests ---
+declare a = crunch(5, 2, +);    // 7
+declare b = crunch(10, 4, -);   // 6
+declare c = crunch(3, 3, *);    // 9
+declare d = crunch(10, 2, /);   // 5
+
+output a + " | " + b + " | " + c + " | " + d;
+
+// --- Forced Type: string ---
+declare str_a = crunch(5, 5, +, string);   // "10"
+output "As string: " + str_a;
+
+// --- Forced Type: bool ---
+declare is_true = crunch(3, 0, +, bool);   // True
+declare is_false = crunch(0, 0, +, bool);  // False
+output "Bool test: " + is_true + " " + is_false;
+
+// --- Forced Type: char ---
+declare char_A = crunch(65, 0, +, char);    // 'A'
+declare char_B = crunch(66, 0, +, char);    // 'B'
+output "Chars: " + char_A + char_B;
+
+// --- Crunch inside output directly ---
+output crunch(8, 2, *, string);
+
+// --- Invalid: division by zero ---
+declare div_zero = crunch(10, 0, /);        // Should error or handle gracefully
+output "Div zero test: " + div_zero;
+
+// --- Invalid: char overflow ---
+declare bad_char = crunch(999999, 0, +, char);  // Should error
+output "Bad char: " + bad_char;

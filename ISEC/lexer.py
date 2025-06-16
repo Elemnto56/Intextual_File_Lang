@@ -45,6 +45,11 @@ with open(filename, 'r') as file:
                 all_tokens.append({'type': 'SYMBOL', 'value': line[i]})
                 i += 1
                 continue
+
+            if line[i] in ["+", "-", "*", "/"]:
+                all_tokens.append({"type": "OPERATOR", "value": line[i]})
+                i += 1
+                continue
             
             # If line is a word
             if line[i].isalpha():
@@ -82,7 +87,16 @@ with open(filename, 'r') as file:
                     all_tokens.append({"type": "CHAR", "value": char})
                     i += 3
                     continue
-                    
+            
+            if line[i] == "(":
+                all_tokens.append({"type": "LPARA", "value": line[i]})
+                i += 1
+                continue
+
+            if line[i] == ")":
+                all_tokens.append({"type": "RPARA", "value": line[i]})
+                i += 1
+                continue
                     
             # If line is a number
             if line[i].isdigit():

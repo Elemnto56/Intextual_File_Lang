@@ -1,6 +1,6 @@
 import json
 import os
-from errors import MissingBreaker
+from errors import RangeException, MissingBreaker, TypeMismatch
 
 #region paths
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -18,7 +18,7 @@ with open(tokens_path, "r") as f:
     # Grab token and move along
     def current():
         if index >= len(tokens):
-            raise MissingBreaker("Unexpected end")
+            raise RangeException("Unexpected end")
         return tokens[index]
     
     # Advance index
@@ -99,13 +99,45 @@ with open(tokens_path, "r") as f:
                                 
 
             elif token["value"] == "output":
+                name = ""
                 advance()            
                 token = current()
-
                 if token["type"] == "IDENTIFIER":
                     name = token["value"]  
                     advance()              
-                    token = current()       
+                    token = current()
+
+                    if token["type"] == "OPERATOR":
+                        advance()
+                        token = current()
+                        if token["type"] in ["INT", "FLOAT", "CHAR", "BOOL", "STRING", "IDENTIFIER"]:
+                            spaghetti_list = [name, token["value"]]
+                            new_tok = tokens[index + 1]
+                            if new_tok["type"] == "OPERATOR" and new_tok["value"] == "+":
+                                advance()
+                                while new_tok["value"] != ";":
+                                    if new_tok["type"] == "OPERATOR" and new_tok["value"] == "+":
+                                        advance()
+                                        new_tok = current()
+
+                                        if new_tok["type"] in ["INT", "FLOAT", "CHAR", "BOOL", "STRING", "IDENTIFIER"]:
+                                            val = new_tok["value"]
+
+                                            spaghetti_list.append(val)
+                                            advance()
+                                            new_tok = current()
+                                        
+                                        
+
+                                ast.append({
+                                    "type": "output",
+                                    "value": spaghetti_list
+                                })
+
+                                ast.append({
+                                    "semicolon": ";"
+                                })
+                        advance()
 
                     if token["type"] == "LBRACKET":
                         advance()          
@@ -124,18 +156,107 @@ with open(tokens_path, "r") as f:
                                 "val": val
                             }
                         })
+                    
+                    if token["type"] == "LPARA":
+                        advance()
+                        token = current()
+                        if token["type"] == "STRING":
+                            path = token["value"]
+                            advance()
+                            token = current()
+                            if token["type"] == "RPARA":
+                                ast.append({
+                                    "type": "output",
+                                    "value": {
+                                        "type": "read",
+                                        "path": path
+                                    }
+                                })
+                                advance()
+                        elif token["type"] in ["INT", "FLOAT"]:
+                            left = token["value"]
+                            advance()
+                            advance() # Skip COMMA
+                            token = current()
+                            if token["type"] in ["INT", "FLOAT"]:
+                                right = token["value"]
+                                advance()
+                                advance()
+                                token = current()
+                                if token["type"] == "OPERATOR":
+                                    op = token["value"]
+                                    advance()
+                                    token = current()
+                                    if token["type"] == "COMMA":
+                                        advance()
+                                        token = current()
+                                        forced_type = token["value"]
+                                        ast.append({
+                                           "type": "output",
+                                           "value": {
+                                               "type": "crunch",
+                                               "left": left,
+                                               "op": op,
+                                               "right": right,
+                                               "forced_type": forced_type
+                                           } 
+                                        })
+                                        advance()
+                                        advance()
+                                        print(token)
+                                    elif token["type"] == "RPARA":
+                                        ast.append({
+                                            "type": "output",
+                                            "value": {
+                                                "type": "crunch",
+                                                "left": left,
+                                                "op": op,
+                                                "right": right
+                                            }
+                                        })
+                                        advance()
+                                        print(token)
+                                        
+
                     else:
                         ast.append({
                             "type": "output",
                             "value": name
                         })
-                elif token["type"] in ["INT", "FLOAT", "CHAR", "BOOL", "STRING"]:
-                    literal = token["value"]
-                    ast.append({
-                        "type": "output",
-                        "value": literal
-                    })
-                    advance()
+                '''      
+                elif token["type"] in ["INT", "FLOAT", "CHAR", "BOOL", "STRING", "IDENTIFIER"]:
+                    first = token["value"]
+                    spaghetti_list = [name]
+                    new_tok = tokens[index + 1]
+                    if new_tok["type"] == "OPERATOR" and new_tok["value"] == "+":
+                        advance()
+                        while True:
+                            if new_tok["type"] == "OPERATOR" and new_tok["value"] == "+":
+                                advance()
+                                new_tok = current()
+
+                                if new_tok["type"] in ["INT", "FLOAT", "CHAR", "BOOL", "STRING", "IDENTIFIER"]:
+                                    val = new_tok["value"]
+
+                                    spaghetti_list.append(val)
+                                    advance()
+                                    new_tok = current()
+                                
+                                if new_tok["type"] == "SYMBOL" and new_tok["value"] == ";":
+                                    break
+
+                        ast.append({
+                            "type": "output",
+                            "value": spaghetti_list
+                        })    
+                    else:
+                        literal = token["value"]
+                        ast.append({
+                            "type": "output",
+                            "value": literal
+                        })
+                        advance()
+                '''
 
             elif token["value"] == "declare":
                 advance()
@@ -159,7 +280,79 @@ with open(tokens_path, "r") as f:
                                     "var_value": list_name
                                 })
                                 token = current()
-                                
+                        elif token["type"] == "IDENTIFIER" and token["value"] == "read":
+                            advance()
+                            token = current()
+                            if token["type"] == "LPARA":
+                                advance()
+                                token = current()
+                                if token["type"] == "STRING":
+                                    path = token["value"]
+                                    ast.append({
+                                        "type": "declare",
+                                        "var_type": "void",
+                                        "var_name": name,
+                                        "var_value": {
+                                            "type": "read",
+                                            "path": path
+                                        }
+                                    })
+                                    advance()
+                                    token = current()
+                                    if token["type"] == "RPARA":
+                                        advance()
+                                else:
+                                    raise TypeMismatch()
+                        elif token["type"] == "IDENTIFIER" and token["value"] == "crunch":
+                            advance()
+                            advance() # Skip LPARA
+                            token = current()
+                            left = token["value"]
+                            advance()
+                            advance()
+                            token = current()
+                            if token["type"] in ["INT", "FLOAT"]:
+                                right = token["value"]
+                                advance()
+                                advance()
+                                token = current()
+                                if token["type"] == "OPERATOR":
+                                    op = token["value"]
+                                    advance()
+                                    token = current()
+                                    if token["type"] == "COMMA":
+                                        advance()
+                                        token = current()
+                                        forced_type = token["value"]
+                                        ast.append({
+                                           "type": "declare",
+                                           "var_type": "void",
+                                           "var_name": name, 
+                                           "var_value": {
+                                               "type": "crunch",
+                                               "left": left,
+                                               "op": op,
+                                               "right": right,
+                                               "forced_type": forced_type
+                                           } 
+                                        })
+                                        advance()
+                                        print(token)
+                                        advance()
+                                    elif token["type"] == "RPARA":
+                                        ast.append({
+                                            "type": "declare",
+                                            "var_type": "void",
+                                            "var_name": name,
+                                            "var_value": {
+                                                "type": "crunch",
+                                                "left": left,
+                                                "op": op,
+                                                "right": right
+                                            }
+                                        })
+                                        print(token)
+                                        advance()
 
 
                     
@@ -169,6 +362,7 @@ with open(tokens_path, "r") as f:
             ast.append({
                 "semicolon": end_semi
             })
+            print(token)
             advance()
             
     with open(ast_path, "w") as out_file:
