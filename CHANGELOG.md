@@ -164,3 +164,46 @@ This release improves RawAST by adding more programming concepts. Along with tha
     More in-depth errors are now shown whenever you make a mistake. While they may be more exclusive to RawAST, Standard Intext users can benefit from this improvement as well.
 
 ***
+
+**Intextual File Lang - Version 0.6.2.5 Pre-Release**
+
+**Title:** Small Additions to a Big Picture
+**Status:** Pre-Release *to ISEC*
+**Release Date:** June 2, 2025
+
+**Overview:**
+
+This release just simple smashes some bugs, and fixes the most infamous one being indexing orders. Because, it'd be odd to have lists, but not be able to index them. 
+
+**What's Included:**
+
+- **Indexing Orders**
+    This is the highlight of this release. You can now output or store these indexes into variables
+
+***
+
+**Intextual File Lang - Version 0.6.3 Pre-Release**
+
+**Title:** Spaghetti & Crunch
+**Status:** Pre-Release *to ISEC*
+**Release:** June 16, 2025
+
+**Overview:**
+
+This release sharpens Intext's expressive power with the introduction of `crunch()`, allowing direct inline math and optional type casting. Output is now more dynamic than ever thanks to Spaghetti Output, enabling clean multi-type prints in a single call. File reading enters the picture with `read()`, and overall error-handling has been refined to make debugging smoother and more intuitive.
+
+**What's Included:**
+
+- **Spaghetti Output**
+  Output now supports multiple mixed-type values in one line using `+` chaining.
+
+- **crunch() Function**
+  Perform math inside scripts. Supports `+`, `-`, `*`, and `/`. Also supports forced type casting to `string`, `bool`, or `char`.
+
+- **read() Function**
+  Lazily read the contents of a file. Can be stored in variables or used in simple output calls.
+
+- **Improved Error Handling**
+  More readable and consistent error messages, including cases like invalid crunch casts or missing files.
+
+***
