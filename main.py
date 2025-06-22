@@ -90,6 +90,6 @@ try:
 except FileNotFoundError:
     pass
 
-print("[ISEC] Sending to inSPECT...")
+print("[ISEC] Sending to bootloader...")
 time.sleep(1)
-subprocess.run(["python3", inspect, intext_file], check=True)
+subprocess.run(["python3", boot_file, intext_file], check=True)
