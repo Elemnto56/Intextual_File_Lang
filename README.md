@@ -33,11 +33,11 @@ python3 main.py
 
 ### **🛈 More info can be seen in the Wiki tab of this repo**
 
-## [Intext Playground](https://www.devhatch.site)
-For simplicity, for those who want to program in Intext, without dealing with the hassle of installing, running, and etc... I made a website that you can visit to code on! It parses to the latest release.
+## <del>[Intext Playground](https://www.devhatch.site)</del>
+For simplicity, for those who want to program in Intext, without dealing with the hassle of installing, running, and etc... I made a website that you can visit to code on! It parses to the latest release. As of now, the site is undergoing development.
 
-## - BIG CHANGE; ISEC INFO -
-The way Intext runs, will be soon changed starting v0.7-pre. By change, I mean that Intext will run on a system called "ISEC", rather than a single file. ISEC stands for "Intext Script Execution Core", which will turn code into tokens, then into AST, then into execution. Developing this will be difficult, so expect a long wait. An expriemental version of ISEC has been released on v0.6-pre. Check the releases and stay tuned!
+## Moving to Rust
+It has caught my attention that building a language in Python, was not a good idea. While Python is good for general-purpose, in order for Intext to truly expand, I plan to branch out to Rust. Updates will take longer, but will be faster and better overall.
 
 ##  [Changelog](CHANGELOG.md)
 View the latest and oldest changes!
