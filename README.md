@@ -27,9 +27,8 @@ python3 main.py
 - Make sure your file ends in .itx so it'll work!
 - <b>Also, check the docs for more info!</b>
 
-## <del>[Intext Playground](https://www.devhatch.site)</del>
-For simplicity, for those who want to program in Intext, without dealing with the hassle of installing, running, and etc... I made a website that you can visit to code on! It parses to the latest release. As of now, the site is undergoing development.
-
+## [Intext Playground](https://playground.devhatch.site)
+For simplicity, for those who want to program in Intext, without dealing with the hassle of installing, running, and etc... I made a website that you can visit to code on! It parses to the latest release.
 ## <a href="https://elemnto56.github.io/Intextual_File_Lang/" target="_blank">Intext Documentation</a>
 Here is the offical docs of Intext, where you can find all the ways to explore the beauty of Intext.
 
