@@ -1,5 +1,5 @@
 # RawText
-RawText, is short for "Rawness of Intext", or "Raw is a Really Awful Way to Write in Intext". What it stands for is up to what you want it to be. RawText will in the future will have multiple things implemented into it, and each with a version number, will be tracked. 
+RawText, is short for "Rawness of Intext", or "raw is a ``R``eally `A`wful ``W``ay to write in In``Text``". What it stands for is up to what you want it to be. RawText will in the future will have multiple things implemented into it, and each with a version number, will be tracked. 
 
 ### RawAST
 **🛈 v0.6.1-pre and above only**
@@ -52,7 +52,7 @@ A statement in RawAST, is considered a node. How to identify a node, is by viewi
 Without these, the interpreter wouldn't know what to do!
 
 ### Sub-Nodes
-Sub-Nodes are regular Nodes, except contained in a Standard Key. Here is an example below, from a snippet of an If Statement. To learn more about If Statements, please view the [If Statements Chapter](https://github.com/Elemnto56/Intextual_File_Lang/wiki/If-Statements).
+Sub-Nodes are regular Nodes, except contained in a Standard Key. Here is an example below, from a snippet of an If Statement. To learn more about If Statements, please view the [If Statements Chapter](if_statements.md).
 ```JSON
  body: [
   {
@@ -87,7 +87,7 @@ A Standard Key is a data type inside of a node. In the example above, ``value`` 
 A Super-Key, is a key that is usually found across a lot of nodes. Not every node, but most. Due to that, they hold special importance to all nodes that contain them. For example, ``type`` is a Super Key that defines what concept a node will use. For instance, I want to make an ``output`` statement, I use the Super Key ``type``, and give it the value ``"output"``.
 
 ### Sub-Keys
-A Sub-Key is a subset of a key. Similar to Standard Keys, it must have a certain amount and certain names for the key it's attached too. The code snippet below, it from an If Statement ``condition`` key. To learn more about If Statements, please view the [If Statements Chapter](https://github.com/Elemnto56/Intextual_File_Lang/wiki/If-Statements)
+A Sub-Key is a subset of a key. Similar to Standard Keys, it must have a certain amount and certain names for the key it's attached too. The code snippet below, it from an If Statement ``condition`` key. To learn more about If Statements, please view the [If Statements Chapter](if_statements.md)
 ```JSON
 "condition": {
    "left": 5,

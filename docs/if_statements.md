@@ -22,7 +22,7 @@
 
 This is an If Node in RawAST. *Let's break it down*
 
-- We start off with the ``type`` Super Key define what concept is being used. In the case, it's an If Statement. To learn more about Super Keys, view the [RawText Chapter](https://github.com/Elemnto56/Intextual_File_Lang/wiki/RawText).
+- We start off with the ``type`` Super Key define what concept is being used. In the case, it's an If Statement. To learn more about Super Keys, view the [RawText Chapter](rawtext.md).
 - The "condition" key is the introduced with Sub-Keys.
 
 # WIP 

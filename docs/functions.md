@@ -3,7 +3,7 @@
 ## crunch()
 Crunch stands for "crunch da numbas", or for a more formal and easy to understand way: "crunch the numbers". Crunch solves four-function math equations. The functions being addition, subtraction, division, and multiplication. Along with that, ``crunch()`` can be forced to be a string, and not to be a int like usual.
 
-If the string type is not forced in ``crunch()``, then it will return a int. Crunch must be assigned to a variable using ``declare``, with its respected type specifier. For more information about ``declare``, check out the chapter for Declare Syntax in the wiki.
+If the string type is not forced in ``crunch()``, then it will return a int. Crunch must be assigned to a variable using ``declare``, with its respected type specifier. For more information about ``declare``, check out the chapter for Declare in the docs.
 
 Here are some examples:
 

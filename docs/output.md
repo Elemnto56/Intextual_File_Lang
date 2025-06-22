@@ -38,7 +38,7 @@ These limitations will either be fixed in the future, or be implemented and main
 ***
 
 ## RawAST Output Syntax
-***🛈 I recommend you check [RawAST Syntax](https://github.com/Elemnto56/Intextual_File_Lang/wiki/RawText) to better understand how these systems work!***
+***🛈 I recommend you check [RawAST Syntax](rawtext.md) to better understand how these systems work!***
 ```JSON
 {
  "type": "output",

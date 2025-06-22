@@ -14,7 +14,7 @@ If the name wasn't obvious enough, "declare" is used to give variables a value. 
 ##  Types
 There are 5 types that declare can assign a variable to. Each must have a type specifier of either: `` int ``, `` float ``, `` string ``,  `` bool ``, or `` char ``.
 
-Do know: some types can have a built-in function assigned to them, which would be considered valid. A built-in function example, being read(). More about functions can be found out in their respected [chapter](https://github.com/Elemnto56/Intextual_File_Lang/wiki/Built-In-Functions).
+Do know: some types can have a built-in function assigned to them, which would be considered valid. A built-in function example, being read(). More about functions can be found out in their respected [chapter](functions.md).
 
 ### Integers (int)
 `` int declare x = 5; ``
