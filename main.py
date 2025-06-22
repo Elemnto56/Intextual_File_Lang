@@ -15,7 +15,7 @@ try:
         subprocess.run(["python3", "ISEC/interpreter.py"], check=True)
         sys.exit(0)
 
-    if special_check == "--dev":
+    elif special_check == "--dev":
         print("!--- Welcome Developer ---!")
         print("""
         1. Macros
@@ -27,21 +27,44 @@ try:
             case 1:
                 os.execv(sys.executable, [sys.executable, os.path.abspath("ISEC/macro_system/macro_handle.py")])
     
-    if special_check == "--version" or special_check == "--v":
+    elif special_check == "--version" or special_check == "--v":
         print("""
-        +----------------------------------+
-        |      Intext Language v0.6.3      |
-        |       "Spaghetti & Crunch"       |
-        +----------------------------------+
+        >>> Intextual File Language 0.7
+        >>> Project File Fusion
+        >>> Developed by: Elemnto56
 
-        > Spaghetti Output
-        > crunch() support
-        > read() support
-        > Error-handling enhancements
-
-        Built by: Elemnto56
+        --- Included in this build ---
+        ✔ read/write/append/delete file ops
+        ✔ <<< Text Bloc >>> multiline support
+        ✔ input() with prompt functionality
+        ✔ insPECT: pre-runtime error checking
+        -------------------------------
+        A scripting language designed to scale automation, not complexity.
         """)
         sys.exit(0)
+    
+    elif special_check == "--help":
+        print("""
+        Usage:
+        python3 main.py [--option]
+
+        Options:
+        --help                  Show this help message and exit
+        --v or --version        Show version information
+        --nowait                Runs ISEC with no wait time at all, along with no logs
+        --dev                   Opens Developer Menu
+              
+        About:
+        Intext is a lightweight scripting language focused on
+        file automation and a simple output pipeline.
+
+        Created by: Elemnto56
+        """)
+        sys.exit(0)
+    
+    else:
+        print("The inputted special argument is not valid")
+        sys.exit(1)
     
                 
 except IndexError:
@@ -57,6 +80,7 @@ with open(f"{noask}.itx", "r") as f:
 root = os.path.dirname(os.path.abspath(__file__))
 intext_file = os.path.join(root, f"{noask}.itx")
 boot_file = os.path.join(root, "ISEC", "boot.py")
+inspect = os.path.join(root, "inSPECT.py")
 
 try:
     ast_file = os.path.join(root, "ISEC", "ast.json")
@@ -66,6 +90,6 @@ try:
 except FileNotFoundError:
     pass
 
-print("[ISEC] Checking special conditions...")
+print("[ISEC] Sending to inSPECT...")
 time.sleep(1)
-subprocess.run(["python3", boot_file, intext_file], check=True)
+subprocess.run(["python3", inspect, intext_file], check=True)

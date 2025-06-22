@@ -46,6 +46,11 @@ with open(filename, 'r') as file:
                 i += 1
                 continue
 
+            if line[i:i+2] == "->":
+                all_tokens.append({"type": "ARROW", "value": line[i:i+2]})
+                i += 2
+                continue
+
             if line[i] in ["+", "-", "*", "/"]:
                 all_tokens.append({"type": "OPERATOR", "value": line[i]})
                 i += 1
@@ -97,7 +102,21 @@ with open(filename, 'r') as file:
                 all_tokens.append({"type": "RPARA", "value": line[i]})
                 i += 1
                 continue
-                    
+
+            if line[i:i+3] == "<<<":
+                i += 3
+                block_val = ""
+
+                index += 1
+                while index < len(lines):
+                    if ">>>" in lines[index]:
+                        break
+                    block_val += lines[index].strip() + "\n"
+                    index += 1
+
+                all_tokens.append({"type": "BLOC", "value": block_val})
+                continue
+
             # If line is a number
             if line[i].isdigit():
                 num = ''

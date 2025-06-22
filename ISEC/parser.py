@@ -229,11 +229,21 @@ with open(tokens_path, "r") as f:
                                             }
                                         })
                                         advance()
+                    
                     else:
                         ast.append({
                             "type": "output",
                             "value": name
                         })
+
+                elif token["type"] == "BLOC":
+                    contents = token["value"]
+                    ast.append({
+                        "type": "output",
+                        "value": contents
+                    })
+
+                   
                 '''      
                 elif token["type"] in ["INT", "FLOAT", "CHAR", "BOOL", "STRING", "IDENTIFIER"]:
                     first = token["value"]
@@ -283,14 +293,13 @@ with open(tokens_path, "r") as f:
                             list_name = token["value"]
                             advance()
                             token = current()
-                            if token["type"] == "SYMBOL":
-                                ast.append({
-                                    "type": "declare",
-                                    "var_type": "void",
-                                    "var_name": name,
-                                    "var_value": list_name
-                                })
-                                token = current()
+                            ast.append({
+                                "type": "declare",
+                                "var_type": "void",
+                                "var_name": name,
+                                "var_value": list_name
+                            })
+                            token = current()
                         elif token["type"] == "IDENTIFIER" and token["value"] == "read":
                             advance()
                             token = current()
@@ -362,16 +371,162 @@ with open(tokens_path, "r") as f:
                                             }
                                         })
                                         advance()
+                        elif token["type"] == "IDENTIFIER" and token["value"] == "input":
+                            advance()
+                            token = current() 
+                            advance() # Skip LPARA
+                            token = current()
+                            if token["type"] == "STRING":
+                                newline = True
+                                advance()
+                                token = current()
+                                advance() # Skip RPARA
+                                token = current()
+                                advance() # Skip ARROW
+                                token = current()
+                                if token["type"] == "STRING":
+                                    prompt = token["value"]
+                                    ast.append({
+                                        "type": "declare",
+                                        "var_type": "void:input",
+                                        "var_name": name,
+                                        "var_value": {
+                                            "type": "input",
+                                            "prompt": prompt,
+                                            "newline": True
+                                        }
+                                    })
+                                    advance()
+                                else:
+                                    raise TypeMismatch()
+                            else:
+                                advance() # Skip RPARA
+                                token = current()
+                                advance() # Skip ARROW
+                                token = current()
+                                if token["type"] == "STRING":
+                                    prompt = token["value"]
+                                    ast.append({
+                                        "type": "declare",
+                                        "var_type": "void:input",
+                                        "var_name": name,
+                                        "var_value": {
+                                            "type": "input",
+                                            "prompt": prompt,
+                                            "newline": False
+                                        }
+                                    })
+                                    advance()
+                                else:
+                                    raise TypeMismatch()
 
+                        elif token["type"] == "BLOC":
+                            contents = token["value"]
+                            ast.append({
+                                "type": "declare",
+                                "var_type": "void",
+                                "var_name": name,
+                                "var_value": contents
+                            })
+                            advance()
+                        else:
+                            raise TypeError()
+        if token["type"] == "IDENTIFIER":
+            if token["value"] == "write":
+                advance()
+                token = current()
+                if token["type"] == "LPARA" and token["value"] == "(":
+                    advance()
+                    token = current()
+                    if token["type"] in ["STRING", "IDENTIFIER"]:
+                        file = token["value"]
+                        advance()
+                        token = current() # Skip COMMA
+                        advance()
+                        token = current()
+                        if token["type"] in ["STRING", "IDENTIFIER"]:
+                            contents = token["value"]
+                            contents = contents.encode().decode("unicode_escape")
+                            advance()
+                            token = current()
+                            if token["type"] == "RPARA":
+                                ast.append({
+                                    "type": "write",
+                                    "file": file,
+                                    "contents": contents
+                                })
+                                advance()
+                        else:
+                            raise TypeMismatch()  
+                    else:
+                        raise TypeMismatch()
+            
+            elif token["value"] == "append":
+                advance()
+                token = current()
+                if token["type"] == "LPARA" and token["value"] == "(":
+                    advance() # Skip LPARA
+                    token = current()
+                    if token["type"] in ["STRING", "IDENTIFIER"]:
+                        file = token["value"]
+                        advance()
+                        token = current()
+                        advance() # Skip COMMA
+                        token = current()
+                        if token["type"] in ["STRING", "IDENTIFIER"]:
+                            contents = token["value"]
+                            contents = contents.encode().decode("unicode_escape")
+                            advance()
+                            token = current()
+                            if token["type"] == "RPARA":
+                                ast.append({
+                                    "type": "append",
+                                    "file": file,
+                                    "additions": contents 
+                                })
+                                advance()
+                            else:
+                                raise TypeMismatch()
+                    else:
+                        raise TypeMismatch()
+                
+            elif token["value"] == "del" or token["value"] == "remove":
+                advance()
+                token = current()
+                if token["type"] == "LPARA":
+                    advance() # Skip LPARA
 
-                    
+                    new_tok = current()
+                    files = []
+                    while True:
+                        if new_tok["type"] == "STRING":
+                            files.append(new_tok["value"])
+                            advance()
+                            new_tok = current()
+                        
+                        if new_tok["type"] == "COMMA":
+                            advance()
+                            new_tok = current()
 
-        if token["type"] == "SYMBOL" and token["value"] == ';':
+                        if new_tok["type"] == "RPARA":
+                            break
+                    ast.append({
+                        "type": "remove",
+                        "value": files
+                    })
+                    advance()
+
+        if token["type"] in ["SYMBOL", "BLOC"]:
             end_semi = token["value"]
-            ast.append({
-                "semicolon": end_semi
-            })
-            advance()
+            if token["value"] != ";":
+                ast.append({
+                    "breaker": "end_line"
+                })
+            else:
+                ast.append({
+                    "semicolon": end_semi
+                })
+                advance()
             
     with open(ast_path, "w") as out_file:
         json.dump(ast, out_file, indent=2)

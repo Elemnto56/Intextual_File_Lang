@@ -41,7 +41,7 @@ def interpret(node):
         elif type_ not in valid_types:
             raise InvalidNode(f"Invalid type: \"{type_}\" in node: \n{json.dumps(node, indent=2)}")
 
-        if i + 1 >= len(tree) or "semicolon" not in tree[i + 1]:
+        if i + 1 >= len(tree) or tree[i + 1].keys() not in ["semicolon", "breaker"]:
             raise MissingBreaker(f"No semicolon found at AST node or line of Intext \n{json.dumps(node, indent=2)}\n ^ Missing here\n---Or on this line---\n {type_} declare {name} = {value} <-- Here")
 
         variables[name] = value
@@ -50,7 +50,7 @@ def interpret(node):
     elif node.get("type") == "output":
         val = node["value"]
 
-        if i + 1 >= len(tree) or "semicolon" not in tree[i + 1]:
+        if i + 1 >= len(tree) or tree[i + 1].keys() not in ["semicolon", "breaker"]:
             raise MissingBreaker(f"No semicolon found at AST node or line of Intext \n{json.dumps(node, indent=2)}\n ^ Missing here\n---Or on this line---\n output {val} <-- Here")
 
         try:
@@ -199,13 +199,12 @@ def interpret(node):
             
             if result:
                 interpret(sub_node)
-    
 
-    elif node.get("type") not in ["declare", "output", "if"] and "semicolon" not in node:
+    elif node.get("type") not in ["declare", "output", "if"] and ("semicolon" or "breaker") not in node:
         raise InvalidNode(f"Invalid sytax node \n{json.dumps(node, indent=2)}")
     
 def read(path):
-    target_path = os.path.normpath(os.path.join(script_dir, path))
+    target_path = os.path.normpath(os.path.join(script_dir, f"../{path}"))
     contents = []
 
     try: 
@@ -218,7 +217,46 @@ def read(path):
         return contents
     except FileNotFoundError:
         raise FileError(f"Could not find file {path}")
+
+def write(path, text):
+    target_path = os.path.normpath(os.path.join(script_dir, f"../{path}"))
+    bytes_count = len(text.encode("utf8"))
+
+    try:
+        with open(target_path, "w") as f:
+            f.write(text)
+
+            if bytes_count > 10_000_000:
+                print(f"[write] Wrote large text (>10MB) to {path}")
+            else:
+                print(f"[write] Wrote {bytes_count} bytes to {path}")
+    except FileNotFoundError:
+        raise FileError(f"Could not find file {path}")
     
+def append(path, text):
+    target_path = os.path.normpath(os.path.join(script_dir, f"../{path}"))
+    bytes_count = len(text.encode("utf8"))
+
+    try:
+        with open(target_path, "a") as f:
+            f.write(text)
+
+            if bytes_count > 10_000_000:
+                print(f"[append] Added over 10MB to {path}")
+            else:
+                print(f"[append] Added {bytes_count} bytes to {path}")
+    except FileNotFoundError:
+        raise FileError(f"Could not find file {path}")
+
+def delete(path):
+    target_path = os.path.normpath(os.path.join(script_dir, f"../{path}"))
+
+    try:
+        os.remove(target_path)
+        print(f"[del] Removed {path}")
+    except FileNotFoundError:
+        raise FileError(f"Could not find file {path}")
+
 def crunch(arg_1, arg_2, op, forced_type=None):
             result = 0
             if op == '+':
@@ -332,10 +370,18 @@ with open(ast_path, "r") as f:
                 variables[name] = list(value)
             elif type_ == "void":
                 variables[name] = value
+            elif type_ == "void:input":
+                prompt = node["var_value"]["prompt"]
+                newline = node["var_value"]["newline"]
+                if newline:
+                    value = input(prompt + "\n")
+                else:
+                    value = input(prompt + " ")
+                variables[name] = value
             elif type_ not in valid_types:
                 raise InvalidNode(f"Invalid type: \"{type_}\" in node: \n{json.dumps(node, indent=2)}")
 
-            if i + 1 >= len(tree) or "semicolon" not in tree[i + 1]:
+            if i + 1 >= len(tree) or not any(k in tree[i + 1] for k in ("semicolon", "breaker")):
                 raise MissingBreaker(f"No semicolon found at AST node or line of Intext \n{json.dumps(node, indent=2)}\n ^ Missing here\n---Or on this line---\n {type_} declare {name} = {value} <-- Here")
 
             variables[name] = value
@@ -344,7 +390,7 @@ with open(ast_path, "r") as f:
         elif node.get("type") == "output":
             val = node["value"]
 
-            if i + 1 >= len(tree) or "semicolon" not in tree[i + 1]:
+            if i + 1 >= len(tree) or not any(k in tree[i + 1] for k in ("semicolon", "breaker")):
                 raise MissingBreaker(f"No semicolon found at AST node or line of Intext \n{json.dumps(node, indent=2)}\n ^ Missing here\n---Or on this line---\n output {val} <-- Here")
 
             try:
@@ -493,11 +539,42 @@ with open(ast_path, "r") as f:
                 
                 if result:
                     interpret(sub_node)
-        
+
+
+        elif node.get("type") == "write":
+            usr_path = node["file"]
+            usr_contents = node["contents"]
+
+            if usr_path in variables:
+                usr_path = variables[usr_path]
+
+            if usr_contents in variables:
+                usr_contents = variables[usr_contents]
+
+            write(usr_path, usr_contents)
+
+        elif node.get("type") == "append":
+            usr_path = node["file"]
+            usr_contents = node["additions"]
+
+            if usr_path in variables:
+                usr_path = variables[usr_path]
+
+            if usr_contents in variables:
+                usr_contents = variables[usr_contents]
+
+            append(usr_path, usr_contents)
+
+        elif node.get("type") == "remove":
+            val_list = list(node["value"])
+
+            for file in val_list:
+                delete(file)
+            
         elif node.get("comment"):
             continue
             
             
-        elif node.get("type") not in ["declare", "output", "if"] and "semicolon" not in node:
+        elif node.get("type") not in ["declare", "output", "if", "write"] and not any(k in node for k in ["semicolon", "breaker"]):
             raise InvalidNode(f"Invalid sytax node \n{json.dumps(node, indent=2)}")
 

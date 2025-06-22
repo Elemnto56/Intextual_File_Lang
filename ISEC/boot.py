@@ -83,15 +83,15 @@ with open(file, "r") as f:
         print("[ISEC] Sending to standard ISEC...")
         time.sleep(.5)
         print("[ISEC] Creating tokens...")
-        time.sleep(1)
+        time.sleep(.5)
         subprocess.run(["python3", "ISEC/lexer.py", abs_file], check=True)
 
         print("[ISEC] Made tokens, now parsing...")
-        time.sleep(1)
+        time.sleep(.5)
         subprocess.run(["python3", "ISEC/parser.py"], check=True)
 
         print("[ISEC] Interpretering...")
-        time.sleep(1)
+        time.sleep(.5)
         print("------ OUTPUT ------")
         try:
             subprocess.run(["python3", "ISEC/interpreter.py"], check=True)

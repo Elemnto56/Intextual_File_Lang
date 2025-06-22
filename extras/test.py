@@ -1,4 +1,4 @@
-string = "Hey 'here'"
+string = "Hey"
 
-if string.count("'"):
-    print("Hello")
+if string == "What" or (string == "Hello" or string == "Hey"):
+    print(f"Found: {string}")
