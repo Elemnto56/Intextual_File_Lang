@@ -30,7 +30,7 @@ python3 main.py
 ## <del>[Intext Playground](https://www.devhatch.site)</del>
 For simplicity, for those who want to program in Intext, without dealing with the hassle of installing, running, and etc... I made a website that you can visit to code on! It parses to the latest release. As of now, the site is undergoing development.
 
-## [Intext Documentation](https://elemnto56.github.io/Intextual_File_Lang/)
+## <a href="https://elemnto56.github.io/Intextual_File_Lang/" target="_blank">Intext Documentation</a>
 Here is the offical docs of Intext, where you can find all the ways to explore the beauty of Intext.
 
 ## Moving to Rust
