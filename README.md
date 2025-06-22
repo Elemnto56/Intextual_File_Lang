@@ -9,16 +9,11 @@ Intext is a lightweight, Python-powered scripting language built for embedding s
 - Basic error handling
 - Comment support using `//`
 
+<b>And more, make sure to check the docs</b>
+
 #### RawText
 RawText is an umbrella term to describe programming closer to the compenents of ISEC. In other words, you work more low-level.
 - RawAST: The parser outputs an Abstract Syntax Tree, which the user (you) can make one to feed into the interpreter yourself. This makes running code much faster, but be warned: programming in RawAST is very verbose due to JSON's rules an the interpreter's rules. As the ASTs are made in a JSON file.
-
-### Ones only for v0.5-pre
-- `crunch()` function for basic math (`+`, `-`, `*`, `/`) with optional string conversion
-- `read()` function to pull in content from text files
-- Loosely typed output: mix anything together (ex: a bool and int can output together)
-- Comment support using `//`
-- Basic error handling
 
 ## How to Run
 ### For v0.3 and v0.5
@@ -30,11 +25,13 @@ python3 og_parser.py <filename>.itx
 python3 main.py
 ```
 - Make sure your file ends in .itx so it'll work!
-
-### **🛈 More info can be seen in the Wiki tab of this repo**
+- <b>Also, check the docs for more info!</b>
 
 ## <del>[Intext Playground](https://www.devhatch.site)</del>
 For simplicity, for those who want to program in Intext, without dealing with the hassle of installing, running, and etc... I made a website that you can visit to code on! It parses to the latest release. As of now, the site is undergoing development.
+
+## [Intext Documentation](https://elemnto56.github.io/Intextual_File_Lang/)
+Here is the offical docs of Intext, where you can find all the ways to explore the beauty of Intext.
 
 ## Moving to Rust
 It has caught my attention that building a language in Python, was not a good idea. While Python is good for general-purpose, in order for Intext to truly expand, I plan to branch out to Rust. Updates will take longer, but will be faster and better overall.
