@@ -1,8 +1,6 @@
-There are multiple built-in functions in Intext, with more to come. Suggestions are welcome
+# Functions
 
 ## crunch()
-**🛈 At the time of writing this, only supported by v0.5-pre**
-
 Crunch stands for "crunch da numbas", or for a more formal and easy to understand way: "crunch the numbers". Crunch solves four-function math equations. The functions being addition, subtraction, division, and multiplication. Along with that, ``crunch()`` can be forced to be a string, and not to be a int like usual.
 
 If the string type is not forced in ``crunch()``, then it will return a int. Crunch must be assigned to a variable using ``declare``, with its respected type specifier. For more information about ``declare``, check out the chapter for Declare Syntax in the wiki.
@@ -41,7 +39,6 @@ Notice how a fourth argument was added? That's what converts the returned value 
 ***
 
 ## read()
-**🛈 At the time of writing this, only supported by v0.5-pre**
 
 ``read()`` is used to read the file contents of a file. There is only one argument, with that being the path. ``read()`` must be assigned to a ``string`` variable using ``declare``. In order to see the file contents, output the variable.
 
@@ -83,3 +80,23 @@ Try not to make paths for ``read()`` be too complex. As trying to read the file,
 or
 
 ``~/texts/file.txt`` 
+
+Doing so, has the possibly of undefined behavior
+
+***
+
+## write()
+
+``write()`` is used to write to a file. Similar to all programming lanaguges, it creates the file, and writes what you wanted to be written. Along with that, if you ``write()`` to an existing file, it'll overwrite all of it's contents.
+
+#### Syntax 
+```intext
+write(<file>, <text>)
+```
+
+- Example:
+```intext
+write("shopping_list.txt", "1. Eggs\n2. Milk")
+```
+
+Since write doesn't return a value, it's considered a <b>Standalone Function</b>. Meaning, you can just write it in the void, rather than assign it to a variable like ``read()``. 

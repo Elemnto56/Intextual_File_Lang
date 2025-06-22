@@ -1,4 +1,6 @@
-# Use and Origin
+# Declare
+
+## Use and Origin
 - Origin
 
 I developed the name from how variables are ***declare***d. I believed using "declare" as a keyword, would let users easily identify what the statement is doing. 

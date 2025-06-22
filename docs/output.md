@@ -1,4 +1,6 @@
-### Origin of Name and Use
+# Output
+
+## Origin of Name and Use
 Output is a print statement in Intext. Rather than follow the standard "print" word, I chose to make it as obvious as possible by using the keyword "output". Reason being, it wouldn't be hard to know which line is printing what's in output.
 
 ## Simple Output
@@ -47,7 +49,7 @@ Making an Output Statement in RawAST is very simple, despite it's verbosity. Fir
 
 
 ## Common Errors
-- **You misspell output**e
+- **You misspell output**
 
 It happens to the best of us. The only way to defeat this error, is by checking through your code for typos. If enough people suggest, error-handling to catch these typos will be implemented.
 
