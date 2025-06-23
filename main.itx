@@ -1,1 +1,9 @@
-output "Hello"
+// A comment
+
+output "Hello"; // Comment on a statment
+
+/*
+I am a multi
+comment dadg
+
+*/

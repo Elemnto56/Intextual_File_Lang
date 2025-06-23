@@ -431,7 +431,7 @@ with open(tokens_path, "r") as f:
                             advance()
                         else:
                             raise TypeError()
-        if token["type"] == "IDENTIFIER":
+        elif token["type"] == "IDENTIFIER":
             if token["value"] == "write":
                 advance()
                 token = current()
@@ -516,7 +516,7 @@ with open(tokens_path, "r") as f:
                     })
                     advance()
 
-        if token["type"] in ["SYMBOL", "BLOC"]:
+        elif token["type"] in ["SYMBOL", "BLOC"]:
             end_semi = token["value"]
             if token["value"] != ";":
                 ast.append({

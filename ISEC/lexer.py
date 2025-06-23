@@ -51,6 +51,19 @@ with open(filename, 'r') as file:
                 i += 2
                 continue
 
+            if line[i:i+2] == "/*":
+                i += 2
+                multi_com = ""
+
+                index += 1
+                while index < len(lines):
+                    if "*/" in lines[index]:
+                        break
+                    multi_com += lines[index]
+                    index += 1
+                
+                continue
+
             if line[i] in ["+", "-", "*", "/"]:
                 all_tokens.append({"type": "OPERATOR", "value": line[i]})
                 i += 1
