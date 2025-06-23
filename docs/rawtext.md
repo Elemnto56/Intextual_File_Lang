@@ -40,7 +40,7 @@ Here is an example AST for Intext:
 ```
 This can be fed right into the interpreter to see your output. Though, what do certain things mean? Well, for starters, let's discuss why it looks like that. It's in a structured manner, because ASTs are put in JSON files. Due to this, they have to follow JSON rules as well. The interpreter reads the JSON, and outputs.
 
-***Let's break down the code**
+***Let's break down the code***
 ## Nodes
 A statement in RawAST, is considered a node. How to identify a node, is by viewing the code surrounded in curly braces ({}). For example, the code below is a node.
 ```JSON

@@ -11,10 +11,21 @@ If the name wasn't obvious enough, "declare" is used to give variables a value. 
 
 ***
 
+## Note 
+
+As of *v0.7*, type-specifiers are **deprecated** and not recommended for use anymore. Instead, disregarding the type of your variable's type, use simply ``declare`` and let ISEC infer the type.
+```intext
+declare x = 5
+```
+
+***
+
 ##  Types
 There are 5 types that declare can assign a variable to. Each must have a type specifier of either: `` int ``, `` float ``, `` string ``,  `` bool ``, or `` char ``.
 
 Do know: some types can have a built-in function assigned to them, which would be considered valid. A built-in function example, being read(). More about functions can be found out in their respected [chapter](functions.md).
+
+***
 
 ### Integers (int)
 `` int declare x = 5; ``
@@ -59,6 +70,7 @@ Booleans are strict. If want to assign a variable to a Truthy value, then use th
 Chars have a strict rule. You cannot use double-quotes to declare a char. Doing so, will throw an error. In v0.5-pre and before, errors may have been thrown regardless. These may have already been patched in later versions however.
 
 ***
+
 ## RawAST Declare Syntax
 
 ```JSON
@@ -75,7 +87,7 @@ Above, is a ``void declare`` node. It does not have a type specifier, because us
 ## Common Errors and Questions
 - **What if I don't use a type specifier?**
 
-Across all versions, an error will be thrown. So, make sure to use one.
+In *v0.5* an error will be thrown if a type specifier is not used. In *v0.7* it's fine, in fact, expected.
 
 - ***delcare***, **Common misspelling of "declare"**
 

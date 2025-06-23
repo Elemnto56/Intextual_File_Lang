@@ -85,6 +85,18 @@ Doing so, has the possibly of undefined behavior
 
 ***
 
+### read() as of *v.07*
+
+To read a file, just simply do
+
+```intext
+read(<file>);
+```
+
+It'll read the file relative to your script's location. Of course, do not forget to use ``declare`` to assign it's value to a variable.
+
+***
+
 ## write()
 
 ``write()`` is used to write to a file. Similar to all programming lanaguges, it creates the file, and writes what you wanted to be written. Along with that, if you ``write()`` to an existing file, it'll overwrite all of it's contents.
@@ -99,4 +111,21 @@ write(<file>, <text>)
 write("shopping_list.txt", "1. Eggs\n2. Milk")
 ```
 
-Since write doesn't return a value, it's considered a <b>Standalone Function</b>. Meaning, you can just write it in the void, rather than assign it to a variable like ``read()``. 
+Since write doesn't return a value, it's considered a <b>Standalone Function</b>. Meaning, you can just write it in the void, rather than assign it to a variable like ``read()``. It also does not need a semicolon, as it doesn't really interact with the script itself; it's ``Out-Of-Bound``. To learn more about ``Bounds`` check [Intext Concepts](concepts.md).
+
+***
+
+## append()
+
+``append()`` is use to append to a file. Similar to ``write()`` it'll create a new file if one with the name doesn't exist, and it's also a **Standalone Function**. However, if you use on an already existing file, it'll add on to it.
+
+### Syntax
+```intext
+append(<file>, <text>)
+```
+
+As I stated for ``write()``, `append()` is ``Out-Of-Bound``, and doesn't require a semicolon.
+
+## input()
+
+`input()` grabs the input of the user's input via output.

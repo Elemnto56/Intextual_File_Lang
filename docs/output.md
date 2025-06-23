@@ -8,11 +8,10 @@ Output is a print statement in Intext. Rather than follow the standard "print" w
 output "Hello World";
 output 5;
 ```
-The good ol` standard way to make a print statement. Except, the keyword being used is "output". 
-- **Note:** Regarding what is being said in output, do not forget to use a semicolon at the end of each statement
+Similar to Python's print statement, but no parathesis and keyword being used is "output". 
+- **Note:** Disregarding what is being said in output, do not forget to use a semicolon at the end of each statement
 
 ## Spaghetti Output 
-**🛈 Only for version v0.5-pre**
 
 ``` intext
 output "Population: " + 8.1 + "B";
@@ -31,9 +30,8 @@ Once again, this is valid. While it may not be outputting literals, variables wo
 ## (Current) Limitations
 ``` intext
 output 2 + 2; // Will output 22, because output makes them into strings
-output crunch(5, 5, +); // Crunch cannot be used in output
 ```
-These limitations will either be fixed in the future, or be implemented and maintained as a feature.
+These limitations will either be fixed in the future, or be implemented and maintained as a feature. This sections will change as time moves on.
 
 ***
 
