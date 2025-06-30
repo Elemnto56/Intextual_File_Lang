@@ -32,8 +32,8 @@ For simplicity, for those who want to program in Intext, without dealing with th
 ## <a href="https://elemnto56.github.io/Intextual_File_Lang/" target="_blank">Intext Documentation</a>
 Here is the offical docs of Intext, where you can find all the ways to explore the beauty of Intext.
 
-## Moving to Rust
-It has caught my attention that building a language in Python, was not a good idea. While Python is good for general-purpose, in order for Intext to truly expand, I plan to branch out to Rust. Updates will take longer, but will be faster and better overall.
+## Moving to Nim
+The more I develop Intext in Python, the more I realize how slower running scripts gets. Due to this, I decided to venture out and see other faster languages. I first came across Rust which I though would be overkill for Intext, but then I found Nim. A good alternative to Python and with great speed. Stay tooned for the switch.
 
 ##  [Changelog](CHANGELOG.md)
 View the latest and oldest changes!
